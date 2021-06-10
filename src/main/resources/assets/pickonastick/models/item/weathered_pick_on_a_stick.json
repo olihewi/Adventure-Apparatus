@@ -1,0 +1,6 @@
+{
+  "parent": "item/handheld_rod",
+  "textures": {
+    "layer0": "pickonastick:items/weathered_pick_on_a_stick"
+  }
+}

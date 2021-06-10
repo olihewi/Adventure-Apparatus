@@ -1,0 +1,24 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "pattern":
+  [
+    "x x",
+    "y y"
+  ],
+  "key":
+  {
+    "x":
+    {
+      "item": "minecraft:shulker_shell"
+    },
+    "y":
+    {
+      "item": "pickonastick:shulker_bullet_bottle"
+    }
+  },
+  "result":
+  {
+    "item": "pickonastick:shuttle_shoes",
+    "count": 1
+  }
+}

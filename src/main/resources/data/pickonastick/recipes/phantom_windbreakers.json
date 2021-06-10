@@ -1,0 +1,21 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "pattern":
+  [
+    "xxx",
+    "x x",
+    "x x"
+  ],
+  "key":
+  {
+    "x":
+    {
+      "item": "minecraft:phantom_membrane"
+    }
+  },
+  "result":
+  {
+    "item": "pickonastick:phantom_windbreakers",
+    "count": 1
+  }
+}
