@@ -13,6 +13,7 @@ import net.minecraft.util.ActionResult;
 import net.minecraft.util.Hand;
 import net.minecraft.util.SoundCategory;
 import net.minecraft.util.SoundEvents;
+import net.minecraft.util.math.BlockPos;
 import net.minecraft.util.math.vector.Vector3d;
 import net.minecraft.world.World;
 
@@ -31,17 +32,13 @@ public class PickOnAStickItem extends FishingRodItem
     PickOnAStickEntity thrownPick = (PickOnAStickEntity) playerEntity.level.getEntity(thrownPickId);
     if (thrownPickId != 0 && thrownPick != null)
     {
-      grapple(itemstack, world, playerEntity, thrownPick);
-      tag.putInt("thrownPick", 0);
-      /*if (!world.isClientSide)
+      if (thrownPick.stuckInBlock != BlockPos.ZERO)
       {
-        int i = playerEntity.fishing.retrieve(itemstack);
-        itemstack.hurtAndBreak(i, playerEntity, (p_220000_1_) ->
-        {
-          p_220000_1_.broadcastBreakEvent(hand);
-        });
+        grapple(itemstack, world, playerEntity, thrownPick);
       }
-      world.playSound((PlayerEntity)null, playerEntity.getX(), playerEntity.getY(), playerEntity.getZ(), SoundEvents.FISHING_BOBBER_RETRIEVE, SoundCategory.NEUTRAL, 1.0F, 0.4F / (random.nextFloat() * 0.4F + 0.8F));*/
+      thrownPick.remove();
+      tag.putInt("thrownPick", 0);
+      world.playSound((PlayerEntity)null, playerEntity.getX(), playerEntity.getY(), playerEntity.getZ(), SoundEvents.FISHING_BOBBER_RETRIEVE, SoundCategory.NEUTRAL, 4.0F, 0.2F / (random.nextFloat() * 0.4F + 0.8F));
     }
     else
     {
@@ -86,7 +83,7 @@ public class PickOnAStickItem extends FishingRodItem
     tag.putBoolean("waxed", false);
   }
 
-  private void grapple(ItemStack itemStack, World world, PlayerEntity thrower, Entity thrownPick)
+  private void grapple(ItemStack itemStack, World world, PlayerEntity thrower, PickOnAStickEntity thrownPick)
   {
     Vector3d motion = thrower.getDeltaMovement();
     Vector3d startPos = thrower.position();
@@ -99,7 +96,5 @@ public class PickOnAStickItem extends FishingRodItem
     finalVelocity = finalVelocity.add(0,yVelocity - finalVelocity.y,0);
     motion = motion.add(finalVelocity);
     thrower.setDeltaMovement(motion);
-    thrownPick.remove();
-    world.playSound((PlayerEntity)null, thrower.getX(), thrower.getY(), thrower.getZ(), SoundEvents.FISHING_BOBBER_RETRIEVE, SoundCategory.NEUTRAL, 4.0F, 0.2F / (random.nextFloat() * 0.4F + 0.8F));
   }
 }

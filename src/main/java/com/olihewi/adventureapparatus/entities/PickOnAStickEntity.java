@@ -7,9 +7,9 @@ import net.minecraft.entity.EntityType;
 import net.minecraft.entity.LivingEntity;
 import net.minecraft.entity.MoverType;
 import net.minecraft.entity.player.PlayerEntity;
-import net.minecraft.entity.projectile.ProjectileEntity;
 import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.CompoundNBT;
+import net.minecraft.nbt.NBTUtil;
 import net.minecraft.network.IPacket;
 import net.minecraft.network.PacketBuffer;
 import net.minecraft.util.math.BlockPos;
@@ -24,10 +24,10 @@ import net.minecraftforge.fml.network.NetworkHooks;
 import javax.annotation.Nonnull;
 import javax.annotation.Nullable;
 
-public class PickOnAStickEntity extends ProjectileEntity implements IEntityAdditionalSpawnData
+public class PickOnAStickEntity extends Entity implements IEntityAdditionalSpawnData
 {
   private int harvestLevel = 0;
-  private boolean inBlock = false;
+  public BlockPos stuckInBlock = BlockPos.ZERO;
   private boolean returning = false;
 
   protected LivingEntity owner;
@@ -61,7 +61,7 @@ public class PickOnAStickEntity extends ProjectileEntity implements IEntityAddit
     }
     else if (this.level.isClientSide || !this.shouldStopFishing(thrower))
     {
-      if (!inBlock)
+      if (stuckInBlock == BlockPos.ZERO)
       {
         tickInAir();
       }
@@ -106,17 +106,18 @@ public class PickOnAStickEntity extends ProjectileEntity implements IEntityAddit
 
   private void onBlockImpact(BlockPos blockPos)
   {
-    this.inBlock = true;
+    this.stuckInBlock = blockPos;
     BlockState blockState = this.level.getBlockState(blockPos);
     this.playSound(blockState.getSoundType().getHitSound(), 1.0F, 1.0F);
   }
 
+  @SuppressWarnings("deprecation")
   private boolean shouldStopFishing(LivingEntity thrower) {
     ItemStack itemstack = thrower.getMainHandItem();
     ItemStack itemstack1 = thrower.getOffhandItem();
     boolean flag = itemstack.getItem() == RegistryHandler.PICK_ON_A_STICK.get();
     boolean flag1 = itemstack1.getItem() == RegistryHandler.PICK_ON_A_STICK.get();
-    if (!thrower.removed && thrower.isAlive() && (flag || flag1) && !(this.distanceToSqr(thrower) > 1024.0D)) {
+    if (!thrower.removed && thrower.isAlive() && (flag || flag1) && !(this.distanceToSqr(thrower) > 1536.0D)) {
       return false;
     } else {
       this.remove();
@@ -145,12 +146,14 @@ public class PickOnAStickEntity extends ProjectileEntity implements IEntityAddit
   protected void readAdditionalSaveData(CompoundNBT compound)
   {
     this.ownerID = compound.getInt("thrower");
+    this.stuckInBlock = NBTUtil.readBlockPos(compound.getCompound("block"));
   }
 
   @Override
   protected void addAdditionalSaveData(CompoundNBT compound)
   {
     compound.putInt("thrower", this.ownerID);
+    compound.put("block", NBTUtil.writeBlockPos(stuckInBlock));
   }
 
   @Nonnull
