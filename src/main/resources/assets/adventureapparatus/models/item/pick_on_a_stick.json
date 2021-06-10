@@ -1,0 +1,12 @@
+{
+  "parent": "item/handheld_rod",
+  "textures": {
+    "layer0": "adventureapparatus:items/pick_on_a_stick"
+  },
+  "overrides": [
+    { "predicate": {"custom_model_data": 1}, "model": "adventureapparatus:item/exposed_pick_on_a_stick" },
+    { "predicate": {"custom_model_data": 2}, "model": "adventureapparatus:item/weathered_pick_on_a_stick" },
+    { "predicate": {"custom_model_data": 3}, "model": "adventureapparatus:item/oxidized_pick_on_a_stick" },
+    { "predicate": {"adventureapparatus:cast": 0.75}, "model": "minecraft:item/fishing_rod_cast"}
+  ]
+}

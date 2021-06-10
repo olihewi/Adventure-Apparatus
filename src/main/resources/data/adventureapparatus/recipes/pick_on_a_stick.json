@@ -1,0 +1,19 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "pattern":
+  [
+    "x"
+  ],
+  "key":
+  {
+    "x":
+    {
+      "item": "minecraft:shulker_shell"
+    }
+  },
+  "result":
+  {
+    "item": "adventureapparatus:pick_on_a_stick",
+    "count": 1
+  }
+}
