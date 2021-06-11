@@ -39,6 +39,9 @@ public class AdventureApparatus
     event.enqueueWork(() ->
     {
       ItemModelsProperties.register(RegistryHandler.PICK_ON_A_STICK.get(),
+          new ResourceLocation(MOD_ID, "oxidation"), (stack, world, living) ->
+              stack.getOrCreateTag().getInt("oxidationStage"));
+      ItemModelsProperties.register(RegistryHandler.PICK_ON_A_STICK.get(),
           new ResourceLocation(MOD_ID, "cast"), (stack, world, living) ->
               living != null && stack.getOrCreateTag().getInt("thrownPick") != 0 ? 1.0F : 0.0F);
     });

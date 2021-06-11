@@ -60,17 +60,16 @@ public class PickOnAStickItem extends FishingRodItem
     super.inventoryTick(itemStack, world, entity, p_77663_4_, p_77663_5_);
     CompoundNBT tag = itemStack.getOrCreateTag();
     long oxidationTime = tag.getLong("oxidationTime");
-    int oxidationStage = tag.getInt("CustomModelData");
+    int oxidationStage = tag.getInt("oxidationStage");
     boolean waxed = tag.getBoolean("waxed");
     if (oxidationTime == 0)
     {
       tag.putLong("oxidationTime", world.getGameTime());
-      tag.putInt("CustomModelData", 0);
     }
     else if (!waxed && oxidationStage < 3 && world.getGameTime() - oxidationTime > OXIDATION_TIME)
     {
       tag.putLong("oxidationTime", world.getGameTime());
-      tag.putInt("CustomModelData", oxidationStage + 1);
+      tag.putInt("oxidationStage", oxidationStage + 1);
     }
     if (world.getEntity(tag.getInt("thrownPick")) == null)
     {
