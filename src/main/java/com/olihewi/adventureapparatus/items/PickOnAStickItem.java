@@ -13,7 +13,6 @@ import net.minecraft.util.ActionResult;
 import net.minecraft.util.Hand;
 import net.minecraft.util.SoundCategory;
 import net.minecraft.util.SoundEvents;
-import net.minecraft.util.math.BlockPos;
 import net.minecraft.util.math.vector.Vector3d;
 import net.minecraft.world.World;
 
@@ -32,13 +31,8 @@ public class PickOnAStickItem extends FishingRodItem
     PickOnAStickEntity thrownPick = (PickOnAStickEntity) playerEntity.level.getEntity(thrownPickId);
     if (thrownPickId != 0 && thrownPick != null)
     {
-      if (thrownPick.stuckInBlock != BlockPos.ZERO)
-      {
-        grapple(itemstack, world, playerEntity, thrownPick);
-      }
-      thrownPick.remove();
+      thrownPick.reel();
       tag.putInt("thrownPick", 0);
-      world.playSound((PlayerEntity)null, playerEntity.getX(), playerEntity.getY(), playerEntity.getZ(), SoundEvents.FISHING_BOBBER_RETRIEVE, SoundCategory.NEUTRAL, 4.0F, 0.2F / (random.nextFloat() * 0.4F + 0.8F));
     }
     else
     {
@@ -75,20 +69,5 @@ public class PickOnAStickItem extends FishingRodItem
     {
       tag.putInt("thrownPick", 0);
     }
-  }
-
-  private void grapple(ItemStack itemStack, World world, PlayerEntity thrower, PickOnAStickEntity thrownPick)
-  {
-    Vector3d motion = thrower.getDeltaMovement();
-    Vector3d startPos = thrower.position();
-    Vector3d targetPos = thrownPick.position().add(0,1,0);
-    Vector3d difference = targetPos.subtract(startPos);
-    double magnitude = Math.min(difference.length(),12); // Limiting velocity (increased with enchant?)
-    difference = difference.normalize().scale(magnitude);
-    Vector3d finalVelocity = difference.scale(0.2D);
-    double yVelocity = Math.max(0.5D, finalVelocity.y); // Minimum Y velocity so the player goes up
-    finalVelocity = finalVelocity.add(0,yVelocity - finalVelocity.y,0);
-    motion = motion.add(finalVelocity);
-    thrower.setDeltaMovement(motion);
   }
 }

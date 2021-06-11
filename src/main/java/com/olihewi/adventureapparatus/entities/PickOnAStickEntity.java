@@ -12,6 +12,8 @@ import net.minecraft.nbt.CompoundNBT;
 import net.minecraft.nbt.NBTUtil;
 import net.minecraft.network.IPacket;
 import net.minecraft.network.PacketBuffer;
+import net.minecraft.util.SoundCategory;
+import net.minecraft.util.SoundEvents;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.util.math.BlockRayTraceResult;
 import net.minecraft.util.math.RayTraceContext;
@@ -93,14 +95,6 @@ public class PickOnAStickEntity extends Entity implements IEntityAdditionalSpawn
 
   private void tickInBlock()
   {
-    /*Vector3d startPos = this.position();
-    Vector3d endPos = this.position().add(this.getDeltaMovement());
-    RayTraceContext rayTraceContext = new RayTraceContext(startPos, endPos, RayTraceContext.BlockMode.COLLIDER, RayTraceContext.FluidMode.NONE, this);
-    BlockRayTraceResult blockRayTraceResult = this.level.clip(rayTraceContext);
-    if (blockRayTraceResult.getType() == RayTraceResult.Type.MISS)
-    {
-      this.inBlock = false;
-    }*/
     this.setDeltaMovement(0,0,0);
   }
 
@@ -123,6 +117,35 @@ public class PickOnAStickEntity extends Entity implements IEntityAdditionalSpawn
       this.remove();
       return true;
     }
+  }
+
+  public void reel()
+  {
+    LivingEntity thrower = this.getThrower();
+    if (thrower != null)
+    {
+      if (stuckInBlock != BlockPos.ZERO)
+      {
+        grapple(thrower);
+      }
+      this.level.playSound((PlayerEntity) null, thrower.getX(), thrower.getY(), thrower.getZ(), SoundEvents.FISHING_BOBBER_RETRIEVE, SoundCategory.NEUTRAL, 4.0F, 0.2F / (random.nextFloat() * 0.4F + 0.8F));
+    }
+    this.remove();
+  }
+
+  private void grapple(LivingEntity thrower)
+  {
+    Vector3d motion = thrower.getDeltaMovement();
+    Vector3d startPos = thrower.position();
+    Vector3d targetPos = this.position().add(0,1,0);
+    Vector3d difference = targetPos.subtract(startPos);
+    double magnitude = Math.min(difference.length(),12); // Limiting velocity (increased with enchant?)
+    difference = difference.normalize().scale(magnitude);
+    Vector3d finalVelocity = difference.scale(0.2D);
+    double yVelocity = Math.max(0.5D, finalVelocity.y); // Minimum Y velocity so the player goes up
+    finalVelocity = finalVelocity.add(0,yVelocity - finalVelocity.y,0);
+    motion = motion.add(finalVelocity);
+    thrower.setDeltaMovement(motion);
   }
 
   @Nullable
