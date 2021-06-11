@@ -19,7 +19,7 @@ import net.minecraft.world.World;
 
 public class PickOnAStickItem extends FishingRodItem
 {
-  private static final long OXIDATION_TIME = 60;
+  private static final long OXIDATION_TIME = 6000;
   public PickOnAStickItem()
   {
     super(new Item.Properties().tab(ItemGroup.TAB_TOOLS));
@@ -62,7 +62,12 @@ public class PickOnAStickItem extends FishingRodItem
     long oxidationTime = tag.getLong("oxidationTime");
     int oxidationStage = tag.getInt("CustomModelData");
     boolean waxed = tag.getBoolean("waxed");
-    if (!waxed && oxidationStage < 3 && world.getGameTime() - oxidationTime > OXIDATION_TIME)
+    if (oxidationTime == 0)
+    {
+      tag.putLong("oxidationTime", world.getGameTime());
+      tag.putInt("CustomModelData", 0);
+    }
+    else if (!waxed && oxidationStage < 3 && world.getGameTime() - oxidationTime > OXIDATION_TIME)
     {
       tag.putLong("oxidationTime", world.getGameTime());
       tag.putInt("CustomModelData", oxidationStage + 1);
@@ -71,16 +76,6 @@ public class PickOnAStickItem extends FishingRodItem
     {
       tag.putInt("thrownPick", 0);
     }
-  }
-
-  @Override
-  public void onCraftedBy(ItemStack itemStack, World world, PlayerEntity player)
-  {
-    super.onCraftedBy(itemStack, world, player);
-    CompoundNBT tag = itemStack.getOrCreateTag();
-    tag.putLong("oxidationTime",world.getGameTime());
-    tag.putInt("CustomModelData", 0);
-    tag.putBoolean("waxed", false);
   }
 
   private void grapple(ItemStack itemStack, World world, PlayerEntity thrower, PickOnAStickEntity thrownPick)
