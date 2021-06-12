@@ -1,10 +1,12 @@
 package com.olihewi.adventureapparatus.items;
 
-import net.minecraft.item.Food;
-import net.minecraft.item.Item;
-import net.minecraft.item.ItemGroup;
+import net.minecraft.item.*;
 import net.minecraft.potion.EffectInstance;
 import net.minecraft.potion.Effects;
+
+import javax.annotation.Nonnull;
+import javax.annotation.ParametersAreNonnullByDefault;
+
 public class ShulkerBulletBottleItem extends Item
 {
   public ShulkerBulletBottleItem()
@@ -14,5 +16,12 @@ public class ShulkerBulletBottleItem extends Item
             .effect(new EffectInstance(Effects.LEVITATION,100,1),1)
             .alwaysEat()
             .build()).stacksTo(16));
+  }
+  @Nonnull
+  @ParametersAreNonnullByDefault
+  @Override
+  public UseAction getUseAnimation(ItemStack itemStack)
+  {
+    return UseAction.DRINK;
   }
 }
