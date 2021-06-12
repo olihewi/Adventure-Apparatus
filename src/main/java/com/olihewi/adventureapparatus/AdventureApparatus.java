@@ -1,6 +1,6 @@
 package com.olihewi.adventureapparatus;
 
-import com.olihewi.adventureapparatus.items.PickOnAStickItem;
+import com.olihewi.adventureapparatus.loot.LootModifierSerializerRegistry;
 import com.olihewi.adventureapparatus.util.EventSubscriber;
 import com.olihewi.adventureapparatus.util.RegistryHandler;
 import net.minecraft.item.ItemModelsProperties;
@@ -28,6 +28,7 @@ public class AdventureApparatus
 
     MinecraftForge.EVENT_BUS.register(this);
     MinecraftForge.EVENT_BUS.register(EventSubscriber.class);
+    LootModifierSerializerRegistry.init();
   }
 
   private void setup(final FMLCommonSetupEvent event)

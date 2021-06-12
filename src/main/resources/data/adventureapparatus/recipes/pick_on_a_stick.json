@@ -1,0 +1,22 @@
+{
+    "type": "minecraft:crafting_shaped",
+    "pattern": [
+        "xy",
+        "yY"
+    ],
+    "key": {
+        "x": {
+            "item": "minecraft:fishing_rod"
+        },
+        "y": {
+            "tag": "forge:ingots/copper"
+        },
+        "Y": {
+            "tag": "forge:ingots/copper"
+        }
+    },
+    "result": {
+        "item": "pickonastick:pick_on_a_stick",
+        "count": 1
+    }
+}

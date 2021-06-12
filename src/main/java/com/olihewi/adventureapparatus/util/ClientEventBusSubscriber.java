@@ -2,6 +2,7 @@ package com.olihewi.adventureapparatus.util;
 
 import com.olihewi.adventureapparatus.AdventureApparatus;
 import com.olihewi.adventureapparatus.client.render.PickOnAStickRenderer;
+import com.olihewi.adventureapparatus.util.RegistryHandler;
 import net.minecraft.client.Minecraft;
 import net.minecraftforge.api.distmarker.Dist;
 import net.minecraftforge.eventbus.api.SubscribeEvent;
