@@ -31,6 +31,8 @@ import net.minecraft.util.math.RayTraceContext;
 import net.minecraft.util.math.RayTraceResult;
 import net.minecraft.util.math.vector.Vector3d;
 import net.minecraft.world.World;
+import net.minecraftforge.api.distmarker.Dist;
+import net.minecraftforge.api.distmarker.OnlyIn;
 import net.minecraftforge.fml.common.registry.IEntityAdditionalSpawnData;
 import net.minecraftforge.fml.network.NetworkHooks;
 
@@ -102,6 +104,13 @@ public class PickOnAStickEntity extends Entity implements IEntityAdditionalSpawn
     }
   }
 
+  @Override
+  @OnlyIn(Dist.CLIENT)
+  public boolean shouldRenderAtSqrDistance(double p_70112_1_)
+  {
+    return p_70112_1_ < 4096.0D;
+  }
+
   private void tickInAir()
   {
     Vector3d startPos = this.position();
@@ -131,6 +140,19 @@ public class PickOnAStickEntity extends Entity implements IEntityAdditionalSpawn
     this.stuckInBlock = blockPos;
     BlockState blockState = this.level.getBlockState(blockPos);
     this.playSound(blockState.getSoundType().getHitSound(), 1.0F, 1.0F);
+    if (shouldMine(blockState))
+    {
+      this.level.destroyBlockProgress(ownerID, blockPos, 4);
+    }
+  }
+  private boolean shouldMine(BlockState blockState)
+  {
+    float blockHardness = blockState.getHarvestLevel();
+    return !blockState.isStickyBlock() &&
+        blockState.getPistonPushReaction() != PushReaction.PUSH_ONLY &&
+        blockState.getBlock() != Blocks.TARGET &&
+        blockHardness >= 0 &&
+        blockHardness <= 2 - this.getItemStack().getOrCreateTag().getInt("oxidationStage");
   }
 
   @SuppressWarnings("deprecation")
@@ -155,12 +177,7 @@ public class PickOnAStickEntity extends Entity implements IEntityAdditionalSpawn
       if (stuckInBlock != BlockPos.ZERO)
       {
         BlockState blockState = this.level.getBlockState(stuckInBlock);
-        float blockHardness = blockState.getHarvestLevel();
-        if (!blockState.isStickyBlock() &&
-            blockState.getPistonPushReaction() != PushReaction.PUSH_ONLY &&
-            blockState.getBlock() != Blocks.TARGET &&
-            blockHardness >= 0 &&
-            blockHardness <= 2 - this.getItemStack().getOrCreateTag().getInt("oxidationStage"))
+        if (shouldMine(blockState))
         {
           mine(stuckInBlock, blockState);
         }
@@ -181,11 +198,12 @@ public class PickOnAStickEntity extends Entity implements IEntityAdditionalSpawn
     {
       level.levelEvent(2001, blockPos, Block.getId(blockState));
       TileEntity tileEntity = blockState.hasTileEntity() ? level.getBlockEntity(blockPos) : null;
-      Block.dropResources(blockState, level, blockPos, tileEntity);
+      Block.dropResources(blockState, level, blockPos, tileEntity, this.getThrower(), this.getItemStack());
       this.level.setBlockAndUpdate(blockPos, Blocks.AIR.defaultBlockState());
       List<ItemEntity> items = level.getEntitiesOfClass(ItemEntity.class, getBoundingBox().inflate(2));
       List<ExperienceOrbEntity> xps = level.getEntitiesOfClass(ExperienceOrbEntity.class, getBoundingBox().inflate(5));
       Vector3d endPos = thrower.position();
+      this.level.destroyBlockProgress(ownerID, blockPos, -1);
       for (ItemEntity item : items)
       {
         double xMov = endPos.x - item.getX();
