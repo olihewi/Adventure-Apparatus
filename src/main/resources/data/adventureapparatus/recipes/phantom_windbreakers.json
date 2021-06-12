@@ -1,20 +1,16 @@
 {
   "type": "minecraft:crafting_shaped",
-  "pattern":
-  [
+  "pattern": [
     "xxx",
     "x x",
     "x x"
   ],
-  "key":
-  {
-    "x":
-    {
+  "key": {
+    "x": {
       "item": "minecraft:phantom_membrane"
     }
   },
-  "result":
-  {
+  "result": {
     "item": "adventureapparatus:phantom_windbreakers",
     "count": 1
   }

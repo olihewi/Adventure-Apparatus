@@ -1,29 +1,21 @@
 {
-  "display":
-  {
-    "title":
-    {
+  "display": {
+    "title": {
       "text": "Up, Up, and Away!"
     },
-    "description":
-    {
+    "description": {
       "text": "Bottle a Shulker Bullet, and eat it!"
     },
-    "icon":
-    {
+    "icon": {
       "item": "adventureapparatus:shulker_bullet_bottle"
     }
   },
   "parent": "minecraft:end/find_end_city",
-  "criteria":
-  {
-    "consumed":
-    {
+  "criteria": {
+    "consumed": {
       "trigger": "minecraft:consume_item",
-      "conditions":
-      {
-        "item":
-        {
+      "conditions": {
+        "item": {
           "item": "adventureapparatus:shulker_bullet_bottle"
         }
       }

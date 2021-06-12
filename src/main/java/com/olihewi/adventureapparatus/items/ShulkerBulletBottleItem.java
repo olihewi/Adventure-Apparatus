@@ -13,10 +13,11 @@ public class ShulkerBulletBottleItem extends Item
   {
     super(new Item.Properties().tab(ItemGroup.TAB_MISC).food(
         new Food.Builder().nutrition(0).saturationMod(0.0F)
-            .effect(new EffectInstance(Effects.LEVITATION,100,1),1)
+            .effect(new EffectInstance(Effects.LEVITATION, 100, 1), 1)
             .alwaysEat()
             .build()).stacksTo(16));
   }
+
   @Nonnull
   @ParametersAreNonnullByDefault
   @Override

@@ -17,8 +17,9 @@ public class PhantomWindbreakersItem extends ArmorItem
 {
   public PhantomWindbreakersItem()
   {
-    super(ModArmourMaterial.PHANTOM_WINDBREAKER_MATERIAL,EquipmentSlotType.LEGS,new Item.Properties().tab(ItemGroup.TAB_COMBAT));
+    super(ModArmourMaterial.PHANTOM_WINDBREAKER_MATERIAL, EquipmentSlotType.LEGS, new Item.Properties().tab(ItemGroup.TAB_COMBAT));
   }
+
   @Override
   public void onArmorTick(ItemStack stack, World world, PlayerEntity player)
   {

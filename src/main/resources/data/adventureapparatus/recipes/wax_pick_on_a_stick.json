@@ -1,15 +1,12 @@
 {
   "type": "minecraft:smithing",
-  "base":
-  {
+  "base": {
     "item": "adventureapparatus:pick_on_a_stick"
   },
-  "addition":
-  {
-      "item": "minecraft:honeycomb"
+  "addition": {
+    "item": "minecraft:honeycomb"
   },
-  "result":
-  {
+  "result": {
     "item": "adventureapparatus:waxed_pick_on_a_stick"
   }
 }

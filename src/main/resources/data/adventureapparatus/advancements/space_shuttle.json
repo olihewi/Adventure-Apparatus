@@ -1,42 +1,30 @@
 {
-  "display":
-  {
-    "title":
-    {
+  "display": {
+    "title": {
       "text": "Space Shuttle"
     },
-    "description":
-    {
+    "description": {
       "text": "Have Slow Falling while wearing Phantom Windbreakers and Shuttle Shoes"
     },
-    "icon":
-    {
+    "icon": {
       "item": "adventureapparatus:shuttle_shoes"
     },
     "frame": "challenge"
   },
   "parent": "adventureapparatus:up_up_and_away",
-  "criteria":
-  {
-    "changed_effect":
-    {
+  "criteria": {
+    "changed_effect": {
       "trigger": "minecraft:effects_changed",
-      "conditions":
-      {
-        "effects":
-        {
+      "conditions": {
+        "effects": {
           "minecraft:slow_falling": {}
         },
-        "player":
-        {
-          "equipment":
-          {
-            "legs":
-            {
+        "player": {
+          "equipment": {
+            "legs": {
               "item": "adventureapparatus:phantom_windbreakers"
             },
-            "feet":
-            {
+            "feet": {
               "item": "adventureapparatus:shuttle_shoes"
             }
           }

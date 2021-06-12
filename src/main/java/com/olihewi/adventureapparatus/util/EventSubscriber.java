@@ -64,6 +64,7 @@ public class EventSubscriber
       }
     }
   }
+
   @SubscribeEvent
   public static void bottleFromShulker(LivingEntityUseItemEvent.Finish event)
   {
@@ -82,6 +83,7 @@ public class EventSubscriber
       }
     }
   }
+
   @SubscribeEvent(priority = EventPriority.LOW)
   public static void onKeyPressed(InputEvent.KeyInputEvent key)
   {
@@ -96,6 +98,7 @@ public class EventSubscriber
       ShuttleShoesItem.shuttleJump(player);
     }
   }
+
   @SubscribeEvent
   public static void turtleShellTick(LivingEvent.LivingUpdateEvent event)
   {

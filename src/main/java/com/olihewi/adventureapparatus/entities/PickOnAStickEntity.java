@@ -7,6 +7,8 @@ import net.minecraft.block.Block;
 import net.minecraft.block.BlockState;
 import net.minecraft.block.Blocks;
 import net.minecraft.block.material.PushReaction;
+import net.minecraft.enchantment.EnchantmentHelper;
+import net.minecraft.enchantment.Enchantments;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.EntityType;
 import net.minecraft.entity.LivingEntity;
@@ -62,9 +64,9 @@ public class PickOnAStickEntity extends Entity implements IEntityAdditionalSpawn
     this(RegistryHandler.PICK_ON_A_STICK_ENTITY.get(), world);
     ownerID = thrower.getId();
     CompoundNBT nbt = pickItemStack.getOrCreateTag();
-    nbt.putInt("thrownPick",this.getId());
+    nbt.putInt("thrownPick", this.getId());
     Vector3d startPosition = thrower.getEyePosition(1.0F);
-    this.setPos(startPosition.x,startPosition.y,startPosition.z);
+    this.setPos(startPosition.x, startPosition.y, startPosition.z);
     this.setDeltaMovement(thrower.getLookAngle().scale(1.5D));
     this.setItemStack(pickItemStack);
   }
@@ -78,6 +80,7 @@ public class PickOnAStickEntity extends Entity implements IEntityAdditionalSpawn
   {
     return this.getEntityData().get(ITEMSTACK);
   }
+
   public void setItemStack(ItemStack stack)
   {
     this.getEntityData().set(ITEMSTACK, stack);
@@ -125,14 +128,14 @@ public class PickOnAStickEntity extends Entity implements IEntityAdditionalSpawn
     }
     Vector3d motion = endPos.subtract(startPos);
     this.move(MoverType.SELF, motion);
-    motion = motion.subtract(0,0.03D, 0);
+    motion = motion.subtract(0, 0.03D, 0);
     this.setDeltaMovement(motion);
     this.reapplyPosition();
   }
 
   private void tickInBlock()
   {
-    this.setDeltaMovement(0,0,0);
+    this.setDeltaMovement(0, 0, 0);
   }
 
   private void onBlockImpact(BlockPos blockPos)
@@ -145,6 +148,7 @@ public class PickOnAStickEntity extends Entity implements IEntityAdditionalSpawn
       this.level.destroyBlockProgress(ownerID, blockPos, 4);
     }
   }
+
   private boolean shouldMine(BlockState blockState)
   {
     float blockHardness = blockState.getHarvestLevel();
@@ -162,14 +166,18 @@ public class PickOnAStickEntity extends Entity implements IEntityAdditionalSpawn
   }
 
   @SuppressWarnings("deprecation")
-  private boolean shouldStopFishing(LivingEntity thrower) {
+  private boolean shouldStopFishing(LivingEntity thrower)
+  {
     ItemStack itemstack = thrower.getMainHandItem();
     ItemStack itemstack1 = thrower.getOffhandItem();
     boolean flag = itemstack.getItem() instanceof PickOnAStickItem;
     boolean flag1 = itemstack1.getItem() instanceof PickOnAStickItem;
-    if (!thrower.removed && thrower.isAlive() && (flag || flag1) && !(this.distanceToSqr(thrower) > 1536.0D)) {
+    if (!thrower.removed && thrower.isAlive() && (flag || flag1) && !(this.distanceToSqr(thrower) > 1536.0D))
+    {
       return false;
-    } else {
+    }
+    else
+    {
       this.remove();
       return true;
     }
@@ -204,7 +212,7 @@ public class PickOnAStickEntity extends Entity implements IEntityAdditionalSpawn
     {
       level.levelEvent(2001, blockPos, Block.getId(blockState));
       TileEntity tileEntity = blockState.hasTileEntity() ? level.getBlockEntity(blockPos) : null;
-      Block.dropResources(blockState, level, blockPos, tileEntity, this.getThrower(), this.getItemStack());
+      Block.dropResources(blockState, level, blockPos, tileEntity, thrower, this.getItemStack());
       this.level.setBlockAndUpdate(blockPos, Blocks.AIR.defaultBlockState());
       List<ItemEntity> items = level.getEntitiesOfClass(ItemEntity.class, getBoundingBox().inflate(2));
       List<ExperienceOrbEntity> xps = level.getEntitiesOfClass(ExperienceOrbEntity.class, getBoundingBox().inflate(5));
@@ -229,7 +237,7 @@ public class PickOnAStickEntity extends Entity implements IEntityAdditionalSpawn
   {
     Vector3d motion = thrower.getDeltaMovement();
     Vector3d startPos = thrower.position();
-    Vector3d targetPos = this.position().add(0,1,0);
+    Vector3d targetPos = this.position().add(0, 1, 0);
     Vector3d finalVelocity = calculateVelocity(startPos, targetPos, 12);
     motion = motion.add(finalVelocity);
     thrower.setDeltaMovement(motion);
@@ -249,10 +257,12 @@ public class PickOnAStickEntity extends Entity implements IEntityAdditionalSpawn
   @Nullable
   public LivingEntity getThrower()
   {
-    if (this.owner == null) {
+    if (this.owner == null)
+    {
       Entity entity = this.level.getEntity(this.ownerID);
-      if (entity instanceof LivingEntity) {
-        this.owner = (LivingEntity)entity;
+      if (entity instanceof LivingEntity)
+      {
+        this.owner = (LivingEntity) entity;
       }
     }
     return this.owner;

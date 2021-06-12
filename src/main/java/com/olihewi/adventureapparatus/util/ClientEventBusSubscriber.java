@@ -13,6 +13,7 @@ import net.minecraftforge.fml.event.lifecycle.FMLClientSetupEvent;
 public class ClientEventBusSubscriber
 {
   private static final Minecraft mc = Minecraft.getInstance();
+
   @SubscribeEvent
   public static void onClientSetup(FMLClientSetupEvent event)
   {

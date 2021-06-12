@@ -29,14 +29,17 @@ public class PickOnAStickItem extends FishingRodItem
   private static final long OXIDATION_TIME = 6000;
   public int oxidationStage;
   public boolean waxed;
+
   public PickOnAStickItem(int oxidation_stage, boolean waxed)
   {
     super(new Item.Properties().tab(ItemGroup.TAB_TOOLS).durability(64));
     this.oxidationStage = oxidation_stage;
     this.waxed = waxed;
   }
+
   @Override
-  public ActionResult<ItemStack> use(World world, PlayerEntity playerEntity, Hand hand) {
+  public ActionResult<ItemStack> use(World world, PlayerEntity playerEntity, Hand hand)
+  {
     ItemStack itemstack = playerEntity.getItemInHand(hand);
     CompoundNBT tag = itemstack.getOrCreateTag();
     int thrownPickId = tag.getInt("thrownPick");
@@ -48,7 +51,7 @@ public class PickOnAStickItem extends FishingRodItem
     }
     else
     {
-      world.playSound((PlayerEntity)null, playerEntity.getX(), playerEntity.getY(), playerEntity.getZ(), SoundEvents.FISHING_BOBBER_THROW, SoundCategory.NEUTRAL, 0.5F, 0.4F / (random.nextFloat() * 0.4F + 0.8F));
+      world.playSound((PlayerEntity) null, playerEntity.getX(), playerEntity.getY(), playerEntity.getZ(), SoundEvents.FISHING_BOBBER_THROW, SoundCategory.NEUTRAL, 0.5F, 0.4F / (random.nextFloat() * 0.4F + 0.8F));
       if (!world.isClientSide)
       {
         world.addFreshEntity(new PickOnAStickEntity(world, itemstack, playerEntity));
@@ -87,10 +90,10 @@ public class PickOnAStickItem extends FishingRodItem
       }
       replacement.setDamageValue(itemStack.getDamageValue());
       replacement.getEnchantmentTags().addAll(itemStack.getEnchantmentTags());
-      replacement.getOrCreateTag().putInt("thrownPick",itemStack.getOrCreateTag().getInt("thrownPick"));
+      replacement.getOrCreateTag().putInt("thrownPick", itemStack.getOrCreateTag().getInt("thrownPick"));
       if (entity instanceof PlayerEntity)
       {
-        ((PlayerEntity) entity).inventory.setItem(itemSlot,replacement);
+        ((PlayerEntity) entity).inventory.setItem(itemSlot, replacement);
       }
 
     }
@@ -105,6 +108,7 @@ public class PickOnAStickItem extends FishingRodItem
           Enchantments.SILK_TOUCH, Enchantments.BLOCK_FORTUNE, Enchantments.UNBREAKING,
           Enchantments.MENDING
       };
+
   @Override
   public boolean canApplyAtEnchantingTable(ItemStack stack, Enchantment enchantment)
   {

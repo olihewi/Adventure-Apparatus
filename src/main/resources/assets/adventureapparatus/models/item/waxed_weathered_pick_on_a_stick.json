@@ -4,6 +4,11 @@
     "layer0": "adventureapparatus:items/weathered_pick_on_a_stick"
   },
   "overrides": [
-    { "predicate": {"adventureapparatus:cast": 0.75}, "model": "minecraft:item/fishing_rod_cast"}
+    {
+      "predicate": {
+        "adventureapparatus:cast": 0.75
+      },
+      "model": "minecraft:item/fishing_rod_cast"
+    }
   ]
 }

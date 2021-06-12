@@ -1,23 +1,18 @@
 {
   "type": "minecraft:crafting_shaped",
-  "pattern":
-  [
+  "pattern": [
     "x x",
     "y y"
   ],
-  "key":
-  {
-    "x":
-    {
+  "key": {
+    "x": {
       "item": "minecraft:shulker_shell"
     },
-    "y":
-    {
+    "y": {
       "item": "adventureapparatus:shulker_bullet_bottle"
     }
   },
-  "result":
-  {
+  "result": {
     "item": "adventureapparatus:shuttle_shoes",
     "count": 1
   }

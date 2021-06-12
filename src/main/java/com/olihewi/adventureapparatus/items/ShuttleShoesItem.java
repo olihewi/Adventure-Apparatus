@@ -20,10 +20,12 @@ import net.minecraft.world.World;
 public class ShuttleShoesItem extends ArmorItem
 {
   public static final String TIMES_JUMPED = "timesJumped";
+
   public ShuttleShoesItem()
   {
     super(ModArmourMaterial.SHUTTLE_SHOES_MATERIAL, EquipmentSlotType.FEET, new Item.Properties().tab(ItemGroup.TAB_COMBAT));
   }
+
   @Override
   public void onArmorTick(ItemStack item, World world, PlayerEntity player)
   {
@@ -33,6 +35,7 @@ public class ShuttleShoesItem extends ArmorItem
       tag.putInt(TIMES_JUMPED, 0);
     }
   }
+
   public static void shuttleJump(PlayerEntity player)
   {
     ItemStack itemStack = player.inventory.getArmor(0);
@@ -53,7 +56,7 @@ public class ShuttleShoesItem extends ArmorItem
       else
       {
         Vector3d motion = player.getDeltaMovement();
-        Vector3d forceDir = player.getLookAngle().add(0,0.75D,0).normalize();
+        Vector3d forceDir = player.getLookAngle().add(0, 0.75D, 0).normalize();
         player.setDeltaMovement(motion.add(forceDir));
       }
       player.getCooldowns().addCooldown(item, 10 + increment * 3);
