@@ -3,7 +3,7 @@ package com.olihewi.adventureapparatus.client.render;
 import com.mojang.blaze3d.matrix.MatrixStack;
 import com.mojang.blaze3d.vertex.IVertexBuilder;
 import com.olihewi.adventureapparatus.entities.PickOnAStickEntity;
-import com.olihewi.adventureapparatus.util.RegistryHandler;
+import com.olihewi.adventureapparatus.items.PickOnAStickItem;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.renderer.IRenderTypeBuffer;
 import net.minecraft.client.renderer.RenderType;
@@ -20,10 +20,14 @@ import net.minecraft.util.math.vector.Matrix4f;
 import net.minecraft.util.math.vector.Vector3d;
 import net.minecraft.util.math.vector.Vector3f;
 
+import javax.annotation.Nonnull;
+
 public class PickOnAStickRenderer extends EntityRenderer<PickOnAStickEntity>
 {
-  private static final ResourceLocation TEXTURE_LOCATION = new ResourceLocation("adventureapparatus:textures/entity/pick_on_a_stick.png");
-  private static final RenderType RENDER_TYPE = RenderType.entityCutout(TEXTURE_LOCATION);
+  private static final ResourceLocation TEXTURE_LOCATION0 = new ResourceLocation("adventureapparatus:textures/entity/pick_on_a_stick.png");
+  private static final ResourceLocation TEXTURE_LOCATION1 = new ResourceLocation("adventureapparatus:textures/entity/exposed_pick_on_a_stick.png");
+  private static final ResourceLocation TEXTURE_LOCATION2 = new ResourceLocation("adventureapparatus:textures/entity/weathered_pick_on_a_stick.png");
+  private static final ResourceLocation TEXTURE_LOCATION3 = new ResourceLocation("adventureapparatus:textures/entity/oxidized_pick_on_a_stick.png");
 
   public PickOnAStickRenderer(EntityRendererManager rendererManager)
   {
@@ -33,6 +37,7 @@ public class PickOnAStickRenderer extends EntityRenderer<PickOnAStickEntity>
   public void render(PickOnAStickEntity entity, float entityYaw, float partialTick, MatrixStack matrix, IRenderTypeBuffer buffer, int packedLight) {
     LivingEntity thrower = entity.getThrower();
     if (thrower != null) {
+      RenderType renderType = RenderType.entityCutout(getTextureLocation(entity));
       matrix.pushPose();
       matrix.pushPose();
       matrix.scale(0.5F, 0.5F, 0.5F);
@@ -41,7 +46,7 @@ public class PickOnAStickRenderer extends EntityRenderer<PickOnAStickEntity>
       MatrixStack.Entry matrixstack$entry = matrix.last();
       Matrix4f matrix4f = matrixstack$entry.pose();
       Matrix3f matrix3f = matrixstack$entry.normal();
-      IVertexBuilder ivertexbuilder = buffer.getBuffer(RENDER_TYPE);
+      IVertexBuilder ivertexbuilder = buffer.getBuffer(renderType);
       vertex(ivertexbuilder, matrix4f, matrix3f, packedLight, 0.0F, 0, 0, 1);
       vertex(ivertexbuilder, matrix4f, matrix3f, packedLight, 1.0F, 0, 1, 1);
       vertex(ivertexbuilder, matrix4f, matrix3f, packedLight, 1.0F, 1, 1, 0);
@@ -49,7 +54,7 @@ public class PickOnAStickRenderer extends EntityRenderer<PickOnAStickEntity>
       matrix.popPose();
       int i = thrower.getMainArm() == HandSide.RIGHT ? 1 : -1;
       ItemStack itemstack = thrower.getMainHandItem();
-      if (itemstack.getItem() != RegistryHandler.PICK_ON_A_STICK.get()) {
+      if (!(itemstack.getItem() instanceof PickOnAStickItem)) {
         i = -i;
       }
 
@@ -114,9 +119,26 @@ public class PickOnAStickRenderer extends EntityRenderer<PickOnAStickEntity>
   private static void stringVertex(float p_229104_0_, float p_229104_1_, float p_229104_2_, IVertexBuilder p_229104_3_, Matrix4f p_229104_4_, float p_229104_5_) {
     p_229104_3_.vertex(p_229104_4_, p_229104_0_ * p_229104_5_, p_229104_1_ * (p_229104_5_ * p_229104_5_ + p_229104_5_) * 0.5F + 0.25F, p_229104_2_ * p_229104_5_).color(0, 0, 0, 255).endVertex();
   }
+  @Nonnull
   @Override
   public ResourceLocation getTextureLocation(PickOnAStickEntity entity)
   {
-    return TEXTURE_LOCATION;
+    int oxidation = 0;
+    if (entity.getItemStack().getItem() instanceof PickOnAStickItem)
+    {
+      oxidation = ((PickOnAStickItem) entity.getItemStack().getItem()).oxidationStage;
+    }
+    switch (oxidation)
+    {
+      case 1:
+        return TEXTURE_LOCATION1;
+      case 2:
+        return TEXTURE_LOCATION2;
+      case 3:
+        return TEXTURE_LOCATION3;
+      default:
+        break;
+    }
+    return TEXTURE_LOCATION0;
   }
 }

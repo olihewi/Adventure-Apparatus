@@ -1,5 +1,12 @@
 {
-  "item.adventureapparatus.pick_on_a_stick": "Pick On A Stick",
+  "item.adventureapparatus.pick_on_a_stick": "Pick on a Stick",
+  "item.adventureapparatus.exposed_pick_on_a_stick": "Exposed Pick on a Stick",
+  "item.adventureapparatus.weathered_pick_on_a_stick": "Weathered Pick on a Stick",
+  "item.adventureapparatus.oxidized_pick_on_a_stick": "Oxidized Pick on a Stick",
+  "item.adventureapparatus.waxed_pick_on_a_stick": "Waxed Pick on a Stick",
+  "item.adventureapparatus.waxed_exposed_pick_on_a_stick": "Waxed Exposed Pick on a Stick",
+  "item.adventureapparatus.waxed_weathered_pick_on_a_stick": "Waxed Weathered Pick on a Stick",
+  "item.adventureapparatus.waxed_oxidized_pick_on_a_stick": "Waxed Oxidized Pick on a Stick",
   "item.adventureapparatus.phantom_windbreakers": "Phantom Windbreakers",
   "item.adventureapparatus.shuttle_shoes": "Shuttle Shoes",
   "item.adventureapparatus.shulker_bullet_bottle": "Shulker Bullet Bottle"

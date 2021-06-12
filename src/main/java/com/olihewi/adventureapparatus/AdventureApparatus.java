@@ -1,5 +1,6 @@
 package com.olihewi.adventureapparatus;
 
+import com.olihewi.adventureapparatus.items.PickOnAStickItem;
 import com.olihewi.adventureapparatus.util.EventSubscriber;
 import com.olihewi.adventureapparatus.util.RegistryHandler;
 import net.minecraft.item.ItemModelsProperties;
@@ -38,9 +39,6 @@ public class AdventureApparatus
   {
     event.enqueueWork(() ->
     {
-      ItemModelsProperties.register(RegistryHandler.PICK_ON_A_STICK.get(),
-          new ResourceLocation(MOD_ID, "oxidation"), (stack, world, living) ->
-              stack.getOrCreateTag().getInt("oxidationStage"));
       ItemModelsProperties.register(RegistryHandler.PICK_ON_A_STICK.get(),
           new ResourceLocation(MOD_ID, "cast"), (stack, world, living) ->
               living != null && stack.getOrCreateTag().getInt("thrownPick") != 0 ? 1.0F : 0.0F);

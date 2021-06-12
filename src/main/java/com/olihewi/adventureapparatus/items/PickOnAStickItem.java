@@ -1,8 +1,11 @@
 package com.olihewi.adventureapparatus.items;
 
 import com.olihewi.adventureapparatus.entities.PickOnAStickEntity;
+import com.olihewi.adventureapparatus.util.RegistryHandler;
 import net.minecraft.entity.Entity;
+import net.minecraft.entity.LivingEntity;
 import net.minecraft.entity.player.PlayerEntity;
+import net.minecraft.inventory.EquipmentSlotType;
 import net.minecraft.item.FishingRodItem;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemGroup;
@@ -19,9 +22,13 @@ import net.minecraft.world.World;
 public class PickOnAStickItem extends FishingRodItem
 {
   private static final long OXIDATION_TIME = 6000;
-  public PickOnAStickItem()
+  public int oxidationStage;
+  public boolean waxed;
+  public PickOnAStickItem(int oxidation_stage, boolean waxed)
   {
     super(new Item.Properties().tab(ItemGroup.TAB_TOOLS));
+    this.oxidationStage = oxidation_stage;
+    this.waxed = waxed;
   }
   @Override
   public ActionResult<ItemStack> use(World world, PlayerEntity playerEntity, Hand hand) {
@@ -49,21 +56,38 @@ public class PickOnAStickItem extends FishingRodItem
   }
 
   @Override
-  public void inventoryTick(ItemStack itemStack, World world, Entity entity, int p_77663_4_, boolean p_77663_5_)
+  public void inventoryTick(ItemStack itemStack, World world, Entity entity, int itemSlot, boolean p_77663_5_)
   {
-    super.inventoryTick(itemStack, world, entity, p_77663_4_, p_77663_5_);
+    super.inventoryTick(itemStack, world, entity, itemSlot, p_77663_5_);
     CompoundNBT tag = itemStack.getOrCreateTag();
     long oxidationTime = tag.getLong("oxidationTime");
-    int oxidationStage = tag.getInt("oxidationStage");
-    boolean waxed = tag.getBoolean("waxed");
     if (oxidationTime == 0)
     {
       tag.putLong("oxidationTime", world.getGameTime());
     }
     else if (!waxed && oxidationStage < 3 && world.getGameTime() - oxidationTime > OXIDATION_TIME)
     {
-      tag.putLong("oxidationTime", world.getGameTime());
-      tag.putInt("oxidationStage", oxidationStage + 1);
+      ItemStack replacement = ItemStack.EMPTY;
+      if (oxidationStage == 0)
+      {
+        replacement = new ItemStack(RegistryHandler.EXPOSED_PICK_ON_A_STICK.get());
+      }
+      else if (oxidationStage == 1)
+      {
+        replacement = new ItemStack(RegistryHandler.WEATHERED_PICK_ON_A_STICK.get());
+      }
+      if (oxidationStage == 2)
+      {
+        replacement = new ItemStack(RegistryHandler.OXIDIZED_PICK_ON_A_STICK.get());
+      }
+      replacement.setDamageValue(itemStack.getDamageValue());
+      replacement.getEnchantmentTags().addAll(itemStack.getEnchantmentTags());
+      replacement.getOrCreateTag().putInt("thrownPick",itemStack.getOrCreateTag().getInt("thrownPick"));
+      if (entity instanceof PlayerEntity)
+      {
+        ((PlayerEntity) entity).inventory.setItem(itemSlot,replacement);
+      }
+
     }
     if (world.getEntity(tag.getInt("thrownPick")) == null)
     {

@@ -26,7 +26,14 @@ public class RegistryHandler
     ENTITIES.register(FMLJavaModLoadingContext.get().getModEventBus());
   }
   // Items
-  public static final RegistryObject<Item> PICK_ON_A_STICK = ITEMS.register("pick_on_a_stick", PickOnAStickItem::new);
+  public static final RegistryObject<Item> PICK_ON_A_STICK = ITEMS.register("pick_on_a_stick", () -> new PickOnAStickItem(0,false));
+  public static final RegistryObject<Item> EXPOSED_PICK_ON_A_STICK = ITEMS.register("exposed_pick_on_a_stick", () -> new PickOnAStickItem(1,false));
+  public static final RegistryObject<Item> WEATHERED_PICK_ON_A_STICK = ITEMS.register("weathered_pick_on_a_stick", () -> new PickOnAStickItem(2,false));
+  public static final RegistryObject<Item> OXIDIZED_PICK_ON_A_STICK = ITEMS.register("oxidized_pick_on_a_stick", () -> new PickOnAStickItem(3,false));
+  public static final RegistryObject<Item> WAXED_PICK_ON_A_STICK = ITEMS.register("waxed_pick_on_a_stick", () -> new PickOnAStickItem(0,true));
+  public static final RegistryObject<Item> WAXED_EXPOSED_PICK_ON_A_STICK = ITEMS.register("waxed_exposed_pick_on_a_stick", () -> new PickOnAStickItem(1,true));
+  public static final RegistryObject<Item> WAXED_WEATHERED_PICK_ON_A_STICK = ITEMS.register("waxed_weathered_pick_on_a_stick", () -> new PickOnAStickItem(2,true));
+  public static final RegistryObject<Item> WAXED_OXIDIZED_PICK_ON_A_STICK = ITEMS.register("waxed_oxidized_pick_on_a_stick", () -> new PickOnAStickItem(3,true));
   public static final RegistryObject<Item> SHULKER_BULLET_BOTTLE = ITEMS.register("shulker_bullet_bottle", ShulkerBulletBottleItem::new);
   // Entities
   public static final RegistryObject<EntityType<PickOnAStickEntity>> PICK_ON_A_STICK_ENTITY = ENTITIES.register("thrown_pick",

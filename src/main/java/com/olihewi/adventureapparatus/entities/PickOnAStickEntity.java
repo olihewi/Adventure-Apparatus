@@ -1,6 +1,7 @@
 package com.olihewi.adventureapparatus.entities;
 
 import com.olihewi.adventureapparatus.AdventureApparatus;
+import com.olihewi.adventureapparatus.items.PickOnAStickItem;
 import com.olihewi.adventureapparatus.util.RegistryHandler;
 import net.minecraft.block.Block;
 import net.minecraft.block.BlockState;
@@ -93,7 +94,7 @@ public class PickOnAStickEntity extends Entity implements IEntityAdditionalSpawn
     }
     else if (this.level.isClientSide || !this.shouldStopFishing(thrower))
     {
-      if (stuckInBlock == BlockPos.ZERO)
+      if (stuckInBlock == BlockPos.ZERO || this.level.getBlockState(stuckInBlock).isAir())
       {
         tickInAir();
       }
@@ -148,19 +149,25 @@ public class PickOnAStickEntity extends Entity implements IEntityAdditionalSpawn
   private boolean shouldMine(BlockState blockState)
   {
     float blockHardness = blockState.getHarvestLevel();
+    int oxidationStage = 0;
+    if (this.getItemStack().getItem() instanceof PickOnAStickItem)
+    {
+      PickOnAStickItem pickOnAStickItem = (PickOnAStickItem) this.getItemStack().getItem();
+      oxidationStage = pickOnAStickItem.oxidationStage;
+    }
     return !blockState.isStickyBlock() &&
         blockState.getPistonPushReaction() != PushReaction.PUSH_ONLY &&
         blockState.getBlock() != Blocks.TARGET &&
         blockHardness >= 0 &&
-        blockHardness <= 2 - this.getItemStack().getOrCreateTag().getInt("oxidationStage");
+        blockHardness <= 2 - oxidationStage;
   }
 
   @SuppressWarnings("deprecation")
   private boolean shouldStopFishing(LivingEntity thrower) {
     ItemStack itemstack = thrower.getMainHandItem();
     ItemStack itemstack1 = thrower.getOffhandItem();
-    boolean flag = itemstack.getItem() == RegistryHandler.PICK_ON_A_STICK.get();
-    boolean flag1 = itemstack1.getItem() == RegistryHandler.PICK_ON_A_STICK.get();
+    boolean flag = itemstack.getItem() instanceof PickOnAStickItem;
+    boolean flag1 = itemstack1.getItem() instanceof PickOnAStickItem;
     if (!thrower.removed && thrower.isAlive() && (flag || flag1) && !(this.distanceToSqr(thrower) > 1536.0D)) {
       return false;
     } else {
@@ -174,9 +181,9 @@ public class PickOnAStickEntity extends Entity implements IEntityAdditionalSpawn
     LivingEntity thrower = this.getThrower();
     if (thrower != null)
     {
-      if (stuckInBlock != BlockPos.ZERO)
+      BlockState blockState = this.level.getBlockState(stuckInBlock);
+      if (stuckInBlock != BlockPos.ZERO || blockState.isAir())
       {
-        BlockState blockState = this.level.getBlockState(stuckInBlock);
         if (shouldMine(blockState))
         {
           mine(stuckInBlock, blockState);
