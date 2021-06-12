@@ -1,0 +1,17 @@
+{
+  "type": "minecraft:crafting_shapeless",
+  "ingredients":
+  [
+    {
+      "item": "adventureapparatus:pick_on_a_stick"
+    },
+    {
+      "item": "minecraft:honeycomb"
+    }
+  ],
+  "result":
+  {
+    "item": "adventureapparatus:waxed_pick_on_a_stick",
+    "count": 1
+  }
+}
