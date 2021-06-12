@@ -1,9 +1,11 @@
 package com.olihewi.adventureapparatus.entities;
 
+import com.olihewi.adventureapparatus.AdventureApparatus;
 import com.olihewi.adventureapparatus.util.RegistryHandler;
 import net.minecraft.block.Block;
 import net.minecraft.block.BlockState;
 import net.minecraft.block.Blocks;
+import net.minecraft.block.material.PushReaction;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.EntityType;
 import net.minecraft.entity.LivingEntity;
@@ -16,7 +18,11 @@ import net.minecraft.nbt.CompoundNBT;
 import net.minecraft.nbt.NBTUtil;
 import net.minecraft.network.IPacket;
 import net.minecraft.network.PacketBuffer;
+import net.minecraft.network.datasync.DataParameter;
+import net.minecraft.network.datasync.DataSerializers;
+import net.minecraft.network.datasync.EntityDataManager;
 import net.minecraft.tileentity.TileEntity;
+import net.minecraft.util.ResourceLocation;
 import net.minecraft.util.SoundCategory;
 import net.minecraft.util.SoundEvents;
 import net.minecraft.util.math.BlockPos;
@@ -34,16 +40,16 @@ import java.util.List;
 
 public class PickOnAStickEntity extends Entity implements IEntityAdditionalSpawnData
 {
-  private int harvestLevel = 0;
   public BlockPos stuckInBlock = BlockPos.ZERO;
-  private boolean returning = false;
 
   protected LivingEntity owner;
   public int ownerID;
+  private static final DataParameter<ItemStack> ITEMSTACK = EntityDataManager.defineId(PickOnAStickEntity.class, DataSerializers.ITEM_STACK);
 
   public PickOnAStickEntity(EntityType<? extends PickOnAStickEntity> entityType, World world)
   {
     super(entityType, world);
+    this.registerData();
   }
 
   public PickOnAStickEntity(World world, ItemStack pickItemStack,
@@ -56,7 +62,23 @@ public class PickOnAStickEntity extends Entity implements IEntityAdditionalSpawn
     Vector3d startPosition = thrower.getEyePosition(1.0F);
     this.setPos(startPosition.x,startPosition.y,startPosition.z);
     this.setDeltaMovement(thrower.getLookAngle().scale(1.5D));
-    this.harvestLevel = 1;
+    System.out.println(pickItemStack.getDisplayName().getString());
+    this.registerData();
+    this.setItemStack(pickItemStack);
+  }
+
+  protected void registerData()
+  {
+    this.getEntityData().define(ITEMSTACK, ItemStack.EMPTY);
+  }
+
+  public ItemStack getItemStack()
+  {
+    return this.getEntityData().get(ITEMSTACK);
+  }
+  public void setItemStack(ItemStack stack)
+  {
+    this.getEntityData().set(ITEMSTACK, stack);
   }
 
   public void tick()
@@ -134,7 +156,11 @@ public class PickOnAStickEntity extends Entity implements IEntityAdditionalSpawn
       {
         BlockState blockState = this.level.getBlockState(stuckInBlock);
         float blockHardness = blockState.getHarvestLevel();
-        if (blockHardness <= 1)
+        if (!blockState.isStickyBlock() &&
+            blockState.getPistonPushReaction() != PushReaction.PUSH_ONLY &&
+            blockState.getBlock() != Blocks.TARGET &&
+            blockHardness >= 0 &&
+            blockHardness <= 2 - this.getItemStack().getOrCreateTag().getInt("oxidationStage"))
         {
           mine(stuckInBlock, blockState);
         }
@@ -151,15 +177,12 @@ public class PickOnAStickEntity extends Entity implements IEntityAdditionalSpawn
   private void mine(BlockPos blockPos, BlockState blockState)
   {
     LivingEntity thrower = getThrower();
-    if (thrower != null)
+    if (thrower != null && !this.level.isClientSide)
     {
-      if (!level.isClientSide)
-      {
-        level.levelEvent(2001, blockPos, Block.getId(blockState));
-        TileEntity tileEntity = blockState.hasTileEntity() ? level.getBlockEntity(blockPos) : null;
-        Block.dropResources(blockState, level, blockPos, tileEntity);
-        this.level.setBlockAndUpdate(blockPos, Blocks.AIR.defaultBlockState());
-      }
+      level.levelEvent(2001, blockPos, Block.getId(blockState));
+      TileEntity tileEntity = blockState.hasTileEntity() ? level.getBlockEntity(blockPos) : null;
+      Block.dropResources(blockState, level, blockPos, tileEntity);
+      this.level.setBlockAndUpdate(blockPos, Blocks.AIR.defaultBlockState());
       List<ItemEntity> items = level.getEntitiesOfClass(ItemEntity.class, getBoundingBox().inflate(2));
       List<ExperienceOrbEntity> xps = level.getEntitiesOfClass(ExperienceOrbEntity.class, getBoundingBox().inflate(5));
       Vector3d endPos = thrower.position();
@@ -222,6 +245,11 @@ public class PickOnAStickEntity extends Entity implements IEntityAdditionalSpawn
   {
     this.ownerID = compound.getInt("thrower");
     this.stuckInBlock = NBTUtil.readBlockPos(compound.getCompound("block"));
+    this.setItemStack(ItemStack.of(compound.getCompound("itemStack")));
+    if (this.getItemStack().isEmpty())
+    {
+      this.remove();
+    }
   }
 
   @Override
@@ -229,6 +257,7 @@ public class PickOnAStickEntity extends Entity implements IEntityAdditionalSpawn
   {
     compound.putInt("thrower", this.ownerID);
     compound.put("block", NBTUtil.writeBlockPos(stuckInBlock));
+    compound.put("itemStack", this.getItemStack().serializeNBT());
   }
 
   @Nonnull
@@ -242,11 +271,13 @@ public class PickOnAStickEntity extends Entity implements IEntityAdditionalSpawn
   public void writeSpawnData(PacketBuffer buffer)
   {
     buffer.writeInt(ownerID);
+    buffer.writeItemStack(this.getItemStack(), false);
   }
 
   @Override
   public void readSpawnData(PacketBuffer additionalData)
   {
     ownerID = additionalData.readInt();
+    this.setItemStack(additionalData.readItem());
   }
 }
