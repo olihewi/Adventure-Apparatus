@@ -1,17 +1,15 @@
 {
-  "type": "minecraft:crafting_shapeless",
-  "ingredients":
-  [
-    {
-      "item": "adventureapparatus:exposed_pick_on_a_stick"
-    },
-    {
-      "item": "minecraft:honeycomb"
-    }
-  ],
+  "type": "minecraft:smithing",
+  "base":
+  {
+    "item": "adventureapparatus:exposed_pick_on_a_stick"
+  },
+  "addition":
+  {
+    "item": "minecraft:honeycomb"
+  },
   "result":
   {
-    "item": "adventureapparatus:waxed_exposed_pick_on_a_stick",
-    "count": 1
+    "item": "adventureapparatus:waxed_exposed_pick_on_a_stick"
   }
 }

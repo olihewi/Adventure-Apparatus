@@ -223,7 +223,6 @@ public class PickOnAStickEntity extends Entity implements IEntityAdditionalSpawn
         xp.setDeltaMovement(calculateVelocity(xp.position(), endPos, 14));
       }
     }
-
   }
 
   private void grapple(LivingEntity thrower)

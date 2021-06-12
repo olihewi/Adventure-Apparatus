@@ -42,6 +42,27 @@ public class AdventureApparatus
       ItemModelsProperties.register(RegistryHandler.PICK_ON_A_STICK.get(),
           new ResourceLocation(MOD_ID, "cast"), (stack, world, living) ->
               living != null && stack.getOrCreateTag().getInt("thrownPick") != 0 ? 1.0F : 0.0F);
+      ItemModelsProperties.register(RegistryHandler.EXPOSED_PICK_ON_A_STICK.get(),
+          new ResourceLocation(MOD_ID, "cast"), (stack, world, living) ->
+              living != null && stack.getOrCreateTag().getInt("thrownPick") != 0 ? 1.0F : 0.0F);
+      ItemModelsProperties.register(RegistryHandler.WEATHERED_PICK_ON_A_STICK.get(),
+          new ResourceLocation(MOD_ID, "cast"), (stack, world, living) ->
+              living != null && stack.getOrCreateTag().getInt("thrownPick") != 0 ? 1.0F : 0.0F);
+      ItemModelsProperties.register(RegistryHandler.OXIDIZED_PICK_ON_A_STICK.get(),
+          new ResourceLocation(MOD_ID, "cast"), (stack, world, living) ->
+              living != null && stack.getOrCreateTag().getInt("thrownPick") != 0 ? 1.0F : 0.0F);
+      ItemModelsProperties.register(RegistryHandler.WAXED_PICK_ON_A_STICK.get(),
+          new ResourceLocation(MOD_ID, "cast"), (stack, world, living) ->
+              living != null && stack.getOrCreateTag().getInt("thrownPick") != 0 ? 1.0F : 0.0F);
+      ItemModelsProperties.register(RegistryHandler.WAXED_EXPOSED_PICK_ON_A_STICK.get(),
+          new ResourceLocation(MOD_ID, "cast"), (stack, world, living) ->
+              living != null && stack.getOrCreateTag().getInt("thrownPick") != 0 ? 1.0F : 0.0F);
+      ItemModelsProperties.register(RegistryHandler.WAXED_WEATHERED_PICK_ON_A_STICK.get(),
+          new ResourceLocation(MOD_ID, "cast"), (stack, world, living) ->
+              living != null && stack.getOrCreateTag().getInt("thrownPick") != 0 ? 1.0F : 0.0F);
+      ItemModelsProperties.register(RegistryHandler.WAXED_OXIDIZED_PICK_ON_A_STICK.get(),
+          new ResourceLocation(MOD_ID, "cast"), (stack, world, living) ->
+              living != null && stack.getOrCreateTag().getInt("thrownPick") != 0 ? 1.0F : 0.0F);
     });
   }
 }

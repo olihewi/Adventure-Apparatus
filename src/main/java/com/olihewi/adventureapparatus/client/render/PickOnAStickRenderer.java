@@ -40,7 +40,7 @@ public class PickOnAStickRenderer extends EntityRenderer<PickOnAStickEntity>
       RenderType renderType = RenderType.entityCutout(getTextureLocation(entity));
       matrix.pushPose();
       matrix.pushPose();
-      matrix.scale(0.5F, 0.5F, 0.5F);
+      matrix.scale(0.75F, 0.75F, 0.75F);
       matrix.mulPose(this.entityRenderDispatcher.cameraOrientation());
       matrix.mulPose(Vector3f.YP.rotationDegrees(180.0F));
       MatrixStack.Entry matrixstack$entry = matrix.last();
