@@ -53,20 +53,19 @@ public class PickOnAStickEntity extends Entity implements IEntityAdditionalSpawn
   {
     super(entityType, world);
     this.registerData();
+    this.noPhysics = true;
   }
 
   public PickOnAStickEntity(World world, ItemStack pickItemStack,
                             PlayerEntity thrower)
   {
-    super(RegistryHandler.PICK_ON_A_STICK_ENTITY.get(), world);
+    this(RegistryHandler.PICK_ON_A_STICK_ENTITY.get(), world);
     ownerID = thrower.getId();
     CompoundNBT nbt = pickItemStack.getOrCreateTag();
     nbt.putInt("thrownPick",this.getId());
     Vector3d startPosition = thrower.getEyePosition(1.0F);
     this.setPos(startPosition.x,startPosition.y,startPosition.z);
     this.setDeltaMovement(thrower.getLookAngle().scale(1.5D));
-    System.out.println(pickItemStack.getDisplayName().getString());
-    this.registerData();
     this.setItemStack(pickItemStack);
   }
 
