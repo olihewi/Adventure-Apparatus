@@ -182,7 +182,7 @@ public class PickOnAStickEntity extends Entity implements IEntityAdditionalSpawn
     if (thrower != null)
     {
       BlockState blockState = this.level.getBlockState(stuckInBlock);
-      if (stuckInBlock != BlockPos.ZERO || blockState.isAir())
+      if (stuckInBlock != BlockPos.ZERO)
       {
         if (shouldMine(blockState))
         {

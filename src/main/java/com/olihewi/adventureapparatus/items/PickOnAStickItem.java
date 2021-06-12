@@ -2,6 +2,9 @@ package com.olihewi.adventureapparatus.items;
 
 import com.olihewi.adventureapparatus.entities.PickOnAStickEntity;
 import com.olihewi.adventureapparatus.util.RegistryHandler;
+import net.minecraft.enchantment.Enchantment;
+import net.minecraft.enchantment.EnchantmentHelper;
+import net.minecraft.enchantment.Enchantments;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.LivingEntity;
 import net.minecraft.entity.player.PlayerEntity;
@@ -19,6 +22,8 @@ import net.minecraft.util.SoundEvents;
 import net.minecraft.util.math.vector.Vector3d;
 import net.minecraft.world.World;
 
+import java.util.Map;
+
 public class PickOnAStickItem extends FishingRodItem
 {
   private static final long OXIDATION_TIME = 6000;
@@ -26,7 +31,7 @@ public class PickOnAStickItem extends FishingRodItem
   public boolean waxed;
   public PickOnAStickItem(int oxidation_stage, boolean waxed)
   {
-    super(new Item.Properties().tab(ItemGroup.TAB_TOOLS));
+    super(new Item.Properties().tab(ItemGroup.TAB_TOOLS).durability(64));
     this.oxidationStage = oxidation_stage;
     this.waxed = waxed;
   }
@@ -93,5 +98,23 @@ public class PickOnAStickItem extends FishingRodItem
     {
       tag.putInt("thrownPick", 0);
     }
+  }
+
+  private final Enchantment[] VALID_ENCHANTMENTS =
+      {
+          Enchantments.SILK_TOUCH, Enchantments.BLOCK_FORTUNE, Enchantments.UNBREAKING,
+          Enchantments.MENDING
+      };
+  @Override
+  public boolean canApplyAtEnchantingTable(ItemStack stack, Enchantment enchantment)
+  {
+    for (Enchantment check : VALID_ENCHANTMENTS)
+    {
+      if (check == enchantment)
+      {
+        return true;
+      }
+    }
+    return false;
   }
 }
