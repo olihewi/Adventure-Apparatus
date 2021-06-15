@@ -1,11 +1,13 @@
 package com.olihewi.adventureapparatus.util;
 
 import com.olihewi.adventureapparatus.AdventureApparatus;
+import com.olihewi.adventureapparatus.enchantments.SinkingCurse;
 import com.olihewi.adventureapparatus.entities.PickOnAStickEntity;
 import com.olihewi.adventureapparatus.items.ShulkerBulletBottleItem;
 import com.olihewi.adventureapparatus.items.ShuttleShoesItem;
 import com.olihewi.adventureapparatus.items.PhantomWindbreakersItem;
 import com.olihewi.adventureapparatus.items.PickOnAStickItem;
+import net.minecraft.enchantment.Enchantment;
 import net.minecraft.entity.EntityClassification;
 import net.minecraft.entity.EntityType;
 import net.minecraft.item.ArmorItem;
@@ -20,11 +22,13 @@ public class RegistryHandler
 {
   public static final DeferredRegister<Item> ITEMS = DeferredRegister.create(ForgeRegistries.ITEMS, AdventureApparatus.MOD_ID);
   public static final DeferredRegister<EntityType<?>> ENTITIES = DeferredRegister.create(ForgeRegistries.ENTITIES, AdventureApparatus.MOD_ID);
+  public static final DeferredRegister<Enchantment> ENCHANTMENTS = DeferredRegister.create(ForgeRegistries.ENCHANTMENTS, AdventureApparatus.MOD_ID);
 
   public static void init()
   {
     ITEMS.register(FMLJavaModLoadingContext.get().getModEventBus());
     ENTITIES.register(FMLJavaModLoadingContext.get().getModEventBus());
+    ENCHANTMENTS.register(FMLJavaModLoadingContext.get().getModEventBus());
   }
 
   // Items
@@ -46,4 +50,6 @@ public class RegistryHandler
       PhantomWindbreakersItem::new);
   public static final RegistryObject<ArmorItem> SHUTTLE_SHOES = ITEMS.register("shuttle_shoes",
       ShuttleShoesItem::new);
+  // Enchantments
+  public static final RegistryObject<Enchantment> SINKING_ENCHANT = ENCHANTMENTS.register("sinking", SinkingCurse::new);
 }

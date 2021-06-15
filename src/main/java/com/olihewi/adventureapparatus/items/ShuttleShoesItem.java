@@ -1,6 +1,8 @@
 package com.olihewi.adventureapparatus.items;
 
+import com.olihewi.adventureapparatus.AdventureApparatus;
 import com.olihewi.adventureapparatus.armour.ModArmourMaterial;
+import com.olihewi.adventureapparatus.network.ShuttleJumpMessage;
 import com.olihewi.adventureapparatus.util.RegistryHandler;
 import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.inventory.EquipmentSlotType;
@@ -41,8 +43,9 @@ public class ShuttleShoesItem extends ArmorItem
     ItemStack itemStack = player.inventory.getArmor(0);
     Item item = itemStack.getItem();
     if (item == RegistryHandler.SHUTTLE_SHOES.get() && !player.isOnGround() && !player.isSpectator() &&
-        !player.getCooldowns().isOnCooldown(item) && !player.isInWater())
+        !player.getCooldowns().isOnCooldown(item))
     {
+      //AdventureApparatus.CHANNEL.sendToServer(new ShuttleJumpMessage());
       CompoundNBT tag = itemStack.getOrCreateTag();
       int increment = tag.getInt(TIMES_JUMPED) + 1;
       tag.putInt(TIMES_JUMPED, increment);
@@ -67,5 +70,9 @@ public class ShuttleShoesItem extends ArmorItem
         player.level.addParticle(ParticleTypes.END_ROD, player.getX() + player.getRandom().nextDouble(), player.getY(), player.getZ() + player.getRandom().nextDouble(), 0.0D, -0.25D, 0.0D);
       }
     }
+  }
+  public static boolean canJump(ItemStack itemStack, PlayerEntity player)
+  {
+    return player.getCooldowns().isOnCooldown(itemStack.getItem());
   }
 }

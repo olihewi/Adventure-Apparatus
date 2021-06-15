@@ -5,6 +5,7 @@ import com.olihewi.adventureapparatus.AdventureApparatus;
 import com.olihewi.adventureapparatus.items.ShuttleShoesItem;
 import com.olihewi.adventureapparatus.util.RegistryHandler;
 import net.minecraft.client.Minecraft;
+import net.minecraft.enchantment.EnchantmentHelper;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.EntityType;
 import net.minecraft.entity.LivingEntity;
@@ -109,7 +110,15 @@ public class EventSubscriber
     if (mc.options.keyJump.consumeClick() && !player.abilities.flying)
     {
       ShuttleShoesItem.shuttleJump(player);
+      if (EnchantmentHelper.getEnchantments(player.getItemBySlot(EquipmentSlotType.FEET)).containsKey(RegistryHandler.SINKING_ENCHANT.get()))
+      {
+        if (player.isOnGround())
+        {
+          player.setDeltaMovement(0,0.45D,0);
+        }
+      }
     }
+
   }
 
   @SubscribeEvent
@@ -119,6 +128,22 @@ public class EventSubscriber
     if (entity.getItemBySlot(EquipmentSlotType.HEAD).getItem() == Items.TURTLE_HELMET && entity.isInWater())
     {
       entity.addEffect(new EffectInstance(Effects.DAMAGE_RESISTANCE, 10, 0, false, false, true));
+    }
+  }
+
+  @SubscribeEvent
+  public static void sinkingEnchantTick(LivingEvent.LivingUpdateEvent event)
+  {
+    LivingEntity entity = event.getEntityLiving();
+    if (EnchantmentHelper.getEnchantments(entity.getItemBySlot(EquipmentSlotType.FEET)).containsKey(RegistryHandler.SINKING_ENCHANT.get()))
+    {
+      if (entity.isInWater() && (!(entity instanceof PlayerEntity) || !((PlayerEntity) entity).abilities.flying))
+      {
+        entity.setDeltaMovement(entity.getDeltaMovement().subtract(0,0.03D,0));
+        //PlayerEntity player = (PlayerEntity) entity;
+        entity.setSprinting(false);
+        entity.setSwimming(false);
+      }
     }
   }
 

@@ -10,6 +10,8 @@ import net.minecraftforge.fml.common.Mod;
 import net.minecraftforge.fml.event.lifecycle.FMLClientSetupEvent;
 import net.minecraftforge.fml.event.lifecycle.FMLCommonSetupEvent;
 import net.minecraftforge.fml.javafmlmod.FMLJavaModLoadingContext;
+import net.minecraftforge.fml.network.NetworkRegistry;
+import net.minecraftforge.fml.network.simple.SimpleChannel;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
@@ -18,6 +20,12 @@ public class AdventureApparatus
 {
   private static final Logger LOGGER = LogManager.getLogger();
   public static final String MOD_ID = "adventureapparatus";
+  public static final String NETWORK_PROTOCOL = "AA1";
+  public static final SimpleChannel CHANNEL = NetworkRegistry.ChannelBuilder.named(new ResourceLocation(MOD_ID,"net"))
+      .networkProtocolVersion(() -> NETWORK_PROTOCOL)
+      .clientAcceptedVersions(NETWORK_PROTOCOL::equals)
+      .serverAcceptedVersions(NETWORK_PROTOCOL::equals)
+      .simpleChannel();
 
   public AdventureApparatus()
   {
