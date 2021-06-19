@@ -14,5 +14,6 @@ public class LootModifierSerializerRegistry
   {
     SERIALIZERS.register(FMLJavaModLoadingContext.get().getModEventBus());
   }
-  public static final RegistryObject<GlobalLootModifierSerializer<PickOnAStickLootModifier>> LOOT_MODIFIER = SERIALIZERS.register("mineshaft_loot", PickOnAStickLootModifier.Serializer::new);
+  public static final RegistryObject<GlobalLootModifierSerializer<PickOnAStickLootModifier>> PICK_ON_A_STICK_LOOT_MODIFIER = SERIALIZERS.register("mineshaft_loot", PickOnAStickLootModifier.Serializer::new);
+  public static final RegistryObject<GlobalLootModifierSerializer<SinkingCurseLootModifier>> SINKING_LOOT_MODIFIER = SERIALIZERS.register("shipwreck_loot", SinkingCurseLootModifier.Serializer::new);
 }
