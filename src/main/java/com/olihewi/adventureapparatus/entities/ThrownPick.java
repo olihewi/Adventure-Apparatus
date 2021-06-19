@@ -1,14 +1,11 @@
 package com.olihewi.adventureapparatus.entities;
 
-import com.olihewi.adventureapparatus.AdventureApparatus;
 import com.olihewi.adventureapparatus.items.PickOnAStickItem;
 import com.olihewi.adventureapparatus.util.RegistryHandler;
 import net.minecraft.block.Block;
 import net.minecraft.block.BlockState;
 import net.minecraft.block.Blocks;
 import net.minecraft.block.material.PushReaction;
-import net.minecraft.enchantment.EnchantmentHelper;
-import net.minecraft.enchantment.Enchantments;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.EntityType;
 import net.minecraft.entity.LivingEntity;
@@ -25,7 +22,6 @@ import net.minecraft.network.datasync.DataParameter;
 import net.minecraft.network.datasync.DataSerializers;
 import net.minecraft.network.datasync.EntityDataManager;
 import net.minecraft.tileentity.TileEntity;
-import net.minecraft.util.ResourceLocation;
 import net.minecraft.util.SoundCategory;
 import net.minecraft.util.SoundEvents;
 import net.minecraft.util.math.BlockPos;
@@ -43,23 +39,23 @@ import javax.annotation.Nonnull;
 import javax.annotation.Nullable;
 import java.util.List;
 
-public class PickOnAStickEntity extends Entity implements IEntityAdditionalSpawnData
+public class ThrownPick extends Entity implements IEntityAdditionalSpawnData
 {
   public BlockPos stuckInBlock = BlockPos.ZERO;
 
   protected LivingEntity owner;
   public int ownerID;
-  private static final DataParameter<ItemStack> ITEMSTACK = EntityDataManager.defineId(PickOnAStickEntity.class, DataSerializers.ITEM_STACK);
+  private static final DataParameter<ItemStack> ITEMSTACK = EntityDataManager.defineId(ThrownPick.class, DataSerializers.ITEM_STACK);
 
-  public PickOnAStickEntity(EntityType<? extends PickOnAStickEntity> entityType, World world)
+  public ThrownPick(EntityType<? extends ThrownPick> entityType, World world)
   {
     super(entityType, world);
     this.registerData();
     this.noPhysics = true;
   }
 
-  public PickOnAStickEntity(World world, ItemStack pickItemStack,
-                            PlayerEntity thrower)
+  public ThrownPick(World world, ItemStack pickItemStack,
+                    PlayerEntity thrower)
   {
     this(RegistryHandler.PICK_ON_A_STICK_ENTITY.get(), world);
     ownerID = thrower.getId();

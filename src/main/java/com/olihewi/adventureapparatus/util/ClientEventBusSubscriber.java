@@ -1,8 +1,7 @@
 package com.olihewi.adventureapparatus.util;
 
 import com.olihewi.adventureapparatus.AdventureApparatus;
-import com.olihewi.adventureapparatus.client.render.PickOnAStickRenderer;
-import com.olihewi.adventureapparatus.util.RegistryHandler;
+import com.olihewi.adventureapparatus.client.render.ThrownPickRenderer;
 import net.minecraft.client.Minecraft;
 import net.minecraftforge.api.distmarker.Dist;
 import net.minecraftforge.eventbus.api.SubscribeEvent;
@@ -18,6 +17,6 @@ public class ClientEventBusSubscriber
   @SubscribeEvent
   public static void onClientSetup(FMLClientSetupEvent event)
   {
-    RenderingRegistry.registerEntityRenderingHandler(RegistryHandler.PICK_ON_A_STICK_ENTITY.get(), PickOnAStickRenderer::new);
+    RenderingRegistry.registerEntityRenderingHandler(RegistryHandler.PICK_ON_A_STICK_ENTITY.get(), ThrownPickRenderer::new);
   }
 }

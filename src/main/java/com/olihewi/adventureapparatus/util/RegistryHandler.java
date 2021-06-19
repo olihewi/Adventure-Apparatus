@@ -2,7 +2,7 @@ package com.olihewi.adventureapparatus.util;
 
 import com.olihewi.adventureapparatus.AdventureApparatus;
 import com.olihewi.adventureapparatus.enchantments.SinkingCurse;
-import com.olihewi.adventureapparatus.entities.PickOnAStickEntity;
+import com.olihewi.adventureapparatus.entities.ThrownPick;
 import com.olihewi.adventureapparatus.items.ShulkerBulletBottleItem;
 import com.olihewi.adventureapparatus.items.ShuttleShoesItem;
 import com.olihewi.adventureapparatus.items.PhantomWindbreakersItem;
@@ -42,8 +42,8 @@ public class RegistryHandler
   public static final RegistryObject<Item> WAXED_OXIDIZED_PICK_ON_A_STICK = ITEMS.register("waxed_oxidized_pick_on_a_stick", () -> new PickOnAStickItem(3, true));
   public static final RegistryObject<Item> SHULKER_BULLET_BOTTLE = ITEMS.register("shulker_bullet_bottle", ShulkerBulletBottleItem::new);
   // Entities
-  public static final RegistryObject<EntityType<PickOnAStickEntity>> PICK_ON_A_STICK_ENTITY = ENTITIES.register("thrown_pick",
-      () -> EntityType.Builder.<PickOnAStickEntity>of(PickOnAStickEntity::new, EntityClassification.MISC)
+  public static final RegistryObject<EntityType<ThrownPick>> PICK_ON_A_STICK_ENTITY = ENTITIES.register("thrown_pick",
+      () -> EntityType.Builder.<ThrownPick>of(ThrownPick::new, EntityClassification.MISC)
           .sized(0.25F, 0.25F).build(new ResourceLocation(AdventureApparatus.MOD_ID, "thrown_pick").toString()));
   // Armour
   public static final RegistryObject<ArmorItem> PHANTOM_WINDBREAKERS = ITEMS.register("phantom_windbreakers",

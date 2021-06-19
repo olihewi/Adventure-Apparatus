@@ -2,7 +2,7 @@ package com.olihewi.adventureapparatus.client.render;
 
 import com.mojang.blaze3d.matrix.MatrixStack;
 import com.mojang.blaze3d.vertex.IVertexBuilder;
-import com.olihewi.adventureapparatus.entities.PickOnAStickEntity;
+import com.olihewi.adventureapparatus.entities.ThrownPick;
 import com.olihewi.adventureapparatus.items.PickOnAStickItem;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.renderer.IRenderTypeBuffer;
@@ -22,19 +22,19 @@ import net.minecraft.util.math.vector.Vector3f;
 
 import javax.annotation.Nonnull;
 
-public class PickOnAStickRenderer extends EntityRenderer<PickOnAStickEntity>
+public class ThrownPickRenderer extends EntityRenderer<ThrownPick>
 {
   private static final ResourceLocation TEXTURE_LOCATION0 = new ResourceLocation("adventureapparatus:textures/entity/pick_on_a_stick.png");
   private static final ResourceLocation TEXTURE_LOCATION1 = new ResourceLocation("adventureapparatus:textures/entity/exposed_pick_on_a_stick.png");
   private static final ResourceLocation TEXTURE_LOCATION2 = new ResourceLocation("adventureapparatus:textures/entity/weathered_pick_on_a_stick.png");
   private static final ResourceLocation TEXTURE_LOCATION3 = new ResourceLocation("adventureapparatus:textures/entity/oxidized_pick_on_a_stick.png");
 
-  public PickOnAStickRenderer(EntityRendererManager rendererManager)
+  public ThrownPickRenderer(EntityRendererManager rendererManager)
   {
     super(rendererManager);
   }
 
-  public void render(PickOnAStickEntity entity, float entityYaw, float partialTick, MatrixStack matrix, IRenderTypeBuffer buffer, int packedLight)
+  public void render(ThrownPick entity, float entityYaw, float partialTick, MatrixStack matrix, IRenderTypeBuffer buffer, int packedLight)
   {
     LivingEntity thrower = entity.getThrower();
     if (thrower != null)
@@ -132,7 +132,7 @@ public class PickOnAStickRenderer extends EntityRenderer<PickOnAStickEntity>
 
   @Nonnull
   @Override
-  public ResourceLocation getTextureLocation(PickOnAStickEntity entity)
+  public ResourceLocation getTextureLocation(ThrownPick entity)
   {
     int oxidation = 0;
     if (entity.getItemStack().getItem() instanceof PickOnAStickItem)

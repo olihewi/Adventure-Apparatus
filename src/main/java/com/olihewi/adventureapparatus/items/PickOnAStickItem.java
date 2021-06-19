@@ -1,14 +1,11 @@
 package com.olihewi.adventureapparatus.items;
 
-import com.olihewi.adventureapparatus.entities.PickOnAStickEntity;
+import com.olihewi.adventureapparatus.entities.ThrownPick;
 import com.olihewi.adventureapparatus.util.RegistryHandler;
 import net.minecraft.enchantment.Enchantment;
-import net.minecraft.enchantment.EnchantmentHelper;
 import net.minecraft.enchantment.Enchantments;
 import net.minecraft.entity.Entity;
-import net.minecraft.entity.LivingEntity;
 import net.minecraft.entity.player.PlayerEntity;
-import net.minecraft.inventory.EquipmentSlotType;
 import net.minecraft.item.FishingRodItem;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemGroup;
@@ -19,10 +16,7 @@ import net.minecraft.util.ActionResult;
 import net.minecraft.util.Hand;
 import net.minecraft.util.SoundCategory;
 import net.minecraft.util.SoundEvents;
-import net.minecraft.util.math.vector.Vector3d;
 import net.minecraft.world.World;
-
-import java.util.Map;
 
 public class PickOnAStickItem extends FishingRodItem
 {
@@ -43,7 +37,7 @@ public class PickOnAStickItem extends FishingRodItem
     ItemStack itemstack = playerEntity.getItemInHand(hand);
     CompoundNBT tag = itemstack.getOrCreateTag();
     int thrownPickId = tag.getInt("thrownPick");
-    PickOnAStickEntity thrownPick = (PickOnAStickEntity) playerEntity.level.getEntity(thrownPickId);
+    ThrownPick thrownPick = (ThrownPick) playerEntity.level.getEntity(thrownPickId);
     if (thrownPickId != 0 && thrownPick != null)
     {
       thrownPick.reel();
@@ -54,7 +48,7 @@ public class PickOnAStickItem extends FishingRodItem
       world.playSound((PlayerEntity) null, playerEntity.getX(), playerEntity.getY(), playerEntity.getZ(), SoundEvents.FISHING_BOBBER_THROW, SoundCategory.NEUTRAL, 0.5F, 0.4F / (random.nextFloat() * 0.4F + 0.8F));
       if (!world.isClientSide)
       {
-        world.addFreshEntity(new PickOnAStickEntity(world, itemstack, playerEntity));
+        world.addFreshEntity(new ThrownPick(world, itemstack, playerEntity));
       }
 
       playerEntity.awardStat(Stats.ITEM_USED.get(this));
