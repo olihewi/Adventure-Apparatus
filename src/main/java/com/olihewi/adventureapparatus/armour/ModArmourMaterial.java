@@ -15,7 +15,7 @@ public enum ModArmourMaterial implements IArmorMaterial
 {
   PHANTOM_WINDBREAKER_MATERIAL(AdventureApparatus.MOD_ID + ":phantom_windbreakers", 250,
       new int[]{1, 1, 1, 1}, 18, SoundEvents.ARMOR_EQUIP_LEATHER, 0.0F, Ingredient.of(Items.PHANTOM_MEMBRANE)),
-  SHUTTLE_SHOES_MATERIAL(AdventureApparatus.MOD_ID + ":shuttle_shoes", 150,
+  SHUTTLE_SHOES_MATERIAL(AdventureApparatus.MOD_ID + ":shuttle_shoes", 228,
       new int[]{2, 2, 2, 2}, 18, SoundEvents.SHULKER_BOX_CLOSE, 0.0F, Ingredient.of(RegistryHandler.SHULKER_BULLET_BOTTLE.get()));
 
   private final String name;

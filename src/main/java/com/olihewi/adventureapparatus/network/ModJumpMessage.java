@@ -30,12 +30,13 @@ public final class ModJumpMessage
 
   public static boolean handle(ModJumpMessage message, Supplier<NetworkEvent.Context> contextSupplier) {
     NetworkEvent.Context context = contextSupplier.get();
-    if (context.getDirection().getReceptionSide() == LogicalSide.SERVER) {
-      context.enqueueWork(() -> {
+    if (context.getDirection().getReceptionSide() == LogicalSide.SERVER)
+    {
+      //context.enqueueWork(() -> {
         PlayerEntity player = context.getSender();
         ShuttleShoesItem.shuttleJump(player);
         SinkingCurse.sinkingJump(player);
-      });
+      //});
       return true;
     }
     return false;

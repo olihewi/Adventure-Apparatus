@@ -1,17 +1,12 @@
 package com.olihewi.adventureapparatus.items;
 
 import com.olihewi.adventureapparatus.armour.ModArmourMaterial;
-import com.olihewi.adventureapparatus.client.model.PhantomWindbreakersModel;
-import net.minecraft.client.renderer.entity.model.BipedModel;
-import net.minecraft.entity.LivingEntity;
 import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.inventory.EquipmentSlotType;
 import net.minecraft.item.*;
 import net.minecraft.potion.Effects;
 import net.minecraft.util.math.vector.Vector3d;
 import net.minecraft.world.World;
-
-import javax.annotation.Nullable;
 
 public class PhantomWindbreakersItem extends ArmorItem
 {
@@ -31,7 +26,7 @@ public class PhantomWindbreakersItem extends ArmorItem
       motion = motion.subtract(motion.scale(0.1D));
       player.setDeltaMovement(motion);
       player.fallDistance = 0.0F;
-      damageTime = 10;
+      damageTime = 20;
     }
     else if (player.hasEffect(Effects.SLOW_FALLING))
     {
@@ -42,7 +37,7 @@ public class PhantomWindbreakersItem extends ArmorItem
         vel_y = Math.max(vel_y, -0.01D);
         player.setDeltaMovement(motion.x, vel_y, motion.z);
         player.stopFallFlying();
-        damageTime = 40;
+        damageTime = 60;
       }
     }
     else if (player.isCrouching())
@@ -54,7 +49,7 @@ public class PhantomWindbreakersItem extends ArmorItem
         vel_y = Math.min(vel_y + 0.2D, -0.075D);
         player.setDeltaMovement(motion.x, vel_y, motion.z);
         player.fallDistance = (float) -vel_y * 4;
-        damageTime = 10;
+        damageTime = 20;
       }
     }
     if (damageTime != 0 && world.getGameTime() % damageTime == 0)
@@ -63,24 +58,5 @@ public class PhantomWindbreakersItem extends ArmorItem
         p.broadcastBreakEvent(EquipmentSlotType.LEGS);
       });
     }
-  }
-
-  @Nullable
-  @Override
-  public <T extends BipedModel<?>> T getArmorModel(LivingEntity entityLiving, ItemStack itemStack, EquipmentSlotType armorSlot, T _default)
-  {
-    if (itemStack != ItemStack.EMPTY && itemStack.getItem() instanceof ArmorItem)
-    {
-      PhantomWindbreakersModel model = new PhantomWindbreakersModel();
-      /*boolean equipped = armorSlot == EquipmentSlotType.LEGS;
-      model.leftWindbreaker.visible = equipped;
-      model.rightWindbreaker.visible = equipped;*/
-
-      model.young = _default.young;
-      model.riding = _default.riding;
-      model.crouching = _default.crouching;
-      return (T) model;
-    }
-    return null;
   }
 }

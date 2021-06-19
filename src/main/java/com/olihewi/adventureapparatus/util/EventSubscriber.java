@@ -100,34 +100,6 @@ public class EventSubscriber
     }
   }
 
-  @SubscribeEvent(priority = EventPriority.LOW)
-  public static void onKeyPressed(InputEvent.KeyInputEvent key)
-  {
-    Minecraft mc = Minecraft.getInstance();
-    PlayerEntity player = mc.player;
-    if (mc.screen != null || player == null)
-    {
-      return;
-    }
-    if (mc.options.keyJump.consumeClick() && !player.abilities.flying)
-    {
-      AdventureApparatus.CHANNEL.sendToServer(new ModJumpMessage());
-      ShuttleShoesItem.shuttleJump(player);
-      SinkingCurse.sinkingJump(player);
-    }
-
-  }
-
-  @SubscribeEvent
-  public static void turtleShellTick(LivingEvent.LivingUpdateEvent event)
-  {
-    LivingEntity entity = event.getEntityLiving();
-    if (entity.getItemBySlot(EquipmentSlotType.HEAD).getItem() == Items.TURTLE_HELMET && entity.isInWater())
-    {
-      entity.addEffect(new EffectInstance(Effects.DAMAGE_RESISTANCE, 10, 0, false, false, true));
-    }
-  }
-
   @SubscribeEvent
   public static void sinkingEnchantTick(LivingEvent.LivingUpdateEvent event)
   {
@@ -137,7 +109,6 @@ public class EventSubscriber
       if (entity.isInWater() && (!(entity instanceof PlayerEntity) || !((PlayerEntity) entity).abilities.flying))
       {
         entity.setDeltaMovement(entity.getDeltaMovement().subtract(0,0.03D,0));
-        //PlayerEntity player = (PlayerEntity) entity;
         entity.setSprinting(false);
         entity.setSwimming(false);
       }

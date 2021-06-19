@@ -19,9 +19,12 @@ import net.minecraft.util.math.vector.Matrix3f;
 import net.minecraft.util.math.vector.Matrix4f;
 import net.minecraft.util.math.vector.Vector3d;
 import net.minecraft.util.math.vector.Vector3f;
+import net.minecraftforge.api.distmarker.Dist;
+import net.minecraftforge.api.distmarker.OnlyIn;
 
 import javax.annotation.Nonnull;
 
+@OnlyIn(Dist.CLIENT)
 public class ThrownPickRenderer extends EntityRenderer<ThrownPick>
 {
   private static final ResourceLocation TEXTURE_LOCATION0 = new ResourceLocation("adventureapparatus:textures/entity/pick_on_a_stick.png");

@@ -38,7 +38,7 @@ public class ShuttleShoesItem extends ArmorItem
 
   public static void shuttleJump(PlayerEntity player)
   {
-    ItemStack itemStack = player.inventory.getArmor(0);
+    ItemStack itemStack = player.getItemBySlot(EquipmentSlotType.FEET);
     Item item = itemStack.getItem();
     if (item == RegistryHandler.SHUTTLE_SHOES.get() && !player.isOnGround() && !player.isSpectator() &&
         !player.getCooldowns().isOnCooldown(item))

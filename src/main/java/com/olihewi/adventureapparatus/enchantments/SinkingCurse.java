@@ -21,7 +21,7 @@ public class SinkingCurse extends Enchantment
   @Override
   protected boolean checkCompatibility(Enchantment enchantment)
   {
-    return enchantment != Enchantments.DEPTH_STRIDER && enchantment != Enchantments.FROST_WALKER;
+    return enchantment != Enchantments.FROST_WALKER;
   }
 
   @Override
@@ -42,7 +42,7 @@ public class SinkingCurse extends Enchantment
     {
       if (player.isOnGround())
       {
-        player.setDeltaMovement(0,0.45D,0);
+        player.setDeltaMovement(0,0.4D,0);
       }
     }
   }

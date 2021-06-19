@@ -13,6 +13,8 @@ import net.minecraft.entity.EntityType;
 import net.minecraft.item.ArmorItem;
 import net.minecraft.item.Item;
 import net.minecraft.util.ResourceLocation;
+import net.minecraftforge.event.RegistryEvent;
+import net.minecraftforge.eventbus.api.SubscribeEvent;
 import net.minecraftforge.fml.RegistryObject;
 import net.minecraftforge.fml.javafmlmod.FMLJavaModLoadingContext;
 import net.minecraftforge.registries.DeferredRegister;
@@ -31,6 +33,12 @@ public class RegistryHandler
     ENCHANTMENTS.register(FMLJavaModLoadingContext.get().getModEventBus());
   }
 
+  @SubscribeEvent
+  public void registerBlocks(RegistryEvent.Register<Item> event)
+  {
+    event.getRegistry().registerAll(new PickOnAStickItem(0, false));
+  }
+
   // Items
   public static final RegistryObject<Item> PICK_ON_A_STICK = ITEMS.register("pick_on_a_stick", () -> new PickOnAStickItem(0, false));
   public static final RegistryObject<Item> EXPOSED_PICK_ON_A_STICK = ITEMS.register("exposed_pick_on_a_stick", () -> new PickOnAStickItem(1, false));
@@ -46,10 +54,10 @@ public class RegistryHandler
       () -> EntityType.Builder.<ThrownPick>of(ThrownPick::new, EntityClassification.MISC)
           .sized(0.25F, 0.25F).build(new ResourceLocation(AdventureApparatus.MOD_ID, "thrown_pick").toString()));
   // Armour
-  public static final RegistryObject<ArmorItem> PHANTOM_WINDBREAKERS = ITEMS.register("phantom_windbreakers",
-      PhantomWindbreakersItem::new);
   public static final RegistryObject<ArmorItem> SHUTTLE_SHOES = ITEMS.register("shuttle_shoes",
       ShuttleShoesItem::new);
+  public static final RegistryObject<ArmorItem> PHANTOM_WINDBREAKERS = ITEMS.register("phantom_windbreakers",
+      PhantomWindbreakersItem::new);
   // Enchantments
   public static final RegistryObject<Enchantment> SINKING_ENCHANT = ENCHANTMENTS.register("sinking", SinkingCurse::new);
 }

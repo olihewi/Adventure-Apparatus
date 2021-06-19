@@ -1,5 +1,6 @@
 package com.olihewi.adventureapparatus;
 
+import com.olihewi.adventureapparatus.client.render.ThrownPickRenderer;
 import com.olihewi.adventureapparatus.loot.LootModifierSerializerRegistry;
 import com.olihewi.adventureapparatus.network.ModJumpMessage;
 import com.olihewi.adventureapparatus.util.EventSubscriber;
@@ -7,6 +8,7 @@ import com.olihewi.adventureapparatus.util.RegistryHandler;
 import net.minecraft.item.ItemModelsProperties;
 import net.minecraft.util.ResourceLocation;
 import net.minecraftforge.common.MinecraftForge;
+import net.minecraftforge.fml.client.registry.RenderingRegistry;
 import net.minecraftforge.fml.common.Mod;
 import net.minecraftforge.fml.event.lifecycle.FMLClientSetupEvent;
 import net.minecraftforge.fml.event.lifecycle.FMLCommonSetupEvent;
@@ -41,23 +43,22 @@ public class AdventureApparatus
   public AdventureApparatus()
   {
     FMLJavaModLoadingContext.get().getModEventBus().addListener(this::setup);
-    FMLJavaModLoadingContext.get().getModEventBus().addListener(this::doClientStuff);
+    FMLJavaModLoadingContext.get().getModEventBus().addListener(this::clientSetup);
 
     RegistryHandler.init();
-    registerMessages();
 
-    MinecraftForge.EVENT_BUS.register(this);
     MinecraftForge.EVENT_BUS.register(EventSubscriber.class);
     LootModifierSerializerRegistry.init();
   }
 
   private void setup(final FMLCommonSetupEvent event)
   {
-
+    registerMessages();
   }
 
-  private void doClientStuff(final FMLClientSetupEvent event)
+  private void clientSetup(final FMLClientSetupEvent event)
   {
+    RenderingRegistry.registerEntityRenderingHandler(RegistryHandler.PICK_ON_A_STICK_ENTITY.get(), ThrownPickRenderer::new);
     event.enqueueWork(() ->
     {
       ItemModelsProperties.register(RegistryHandler.PICK_ON_A_STICK.get(),
