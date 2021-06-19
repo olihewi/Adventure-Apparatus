@@ -2,7 +2,9 @@ package com.olihewi.adventureapparatus.util;
 
 import com.google.gson.JsonObject;
 import com.olihewi.adventureapparatus.AdventureApparatus;
+import com.olihewi.adventureapparatus.enchantments.SinkingCurse;
 import com.olihewi.adventureapparatus.items.ShuttleShoesItem;
+import com.olihewi.adventureapparatus.network.ModJumpMessage;
 import com.olihewi.adventureapparatus.util.RegistryHandler;
 import net.minecraft.client.Minecraft;
 import net.minecraft.enchantment.EnchantmentHelper;
@@ -109,14 +111,9 @@ public class EventSubscriber
     }
     if (mc.options.keyJump.consumeClick() && !player.abilities.flying)
     {
+      AdventureApparatus.CHANNEL.sendToServer(new ModJumpMessage());
       ShuttleShoesItem.shuttleJump(player);
-      if (EnchantmentHelper.getEnchantments(player.getItemBySlot(EquipmentSlotType.FEET)).containsKey(RegistryHandler.SINKING_ENCHANT.get()))
-      {
-        if (player.isOnGround())
-        {
-          player.setDeltaMovement(0,0.45D,0);
-        }
-      }
+      SinkingCurse.sinkingJump(player);
     }
 
   }

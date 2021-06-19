@@ -1,6 +1,7 @@
 package com.olihewi.adventureapparatus;
 
 import com.olihewi.adventureapparatus.loot.LootModifierSerializerRegistry;
+import com.olihewi.adventureapparatus.network.ModJumpMessage;
 import com.olihewi.adventureapparatus.util.EventSubscriber;
 import com.olihewi.adventureapparatus.util.RegistryHandler;
 import net.minecraft.item.ItemModelsProperties;
@@ -21,11 +22,21 @@ public class AdventureApparatus
   private static final Logger LOGGER = LogManager.getLogger();
   public static final String MOD_ID = "adventureapparatus";
   public static final String NETWORK_PROTOCOL = "AA1";
-  public static final SimpleChannel CHANNEL = NetworkRegistry.ChannelBuilder.named(new ResourceLocation(MOD_ID,"net"))
+  public static SimpleChannel CHANNEL;
+  public static void registerMessages()
+  {
+    CHANNEL = NetworkRegistry.ChannelBuilder.named(new ResourceLocation(MOD_ID,"net"))
       .networkProtocolVersion(() -> NETWORK_PROTOCOL)
       .clientAcceptedVersions(NETWORK_PROTOCOL::equals)
       .serverAcceptedVersions(NETWORK_PROTOCOL::equals)
       .simpleChannel();
+
+    CHANNEL.registerMessage(0,
+        ModJumpMessage.class,
+        ModJumpMessage::serialize,
+        ModJumpMessage::deserialize,
+        ModJumpMessage::handle);
+  }
 
   public AdventureApparatus()
   {
@@ -33,6 +44,7 @@ public class AdventureApparatus
     FMLJavaModLoadingContext.get().getModEventBus().addListener(this::doClientStuff);
 
     RegistryHandler.init();
+    registerMessages();
 
     MinecraftForge.EVENT_BUS.register(this);
     MinecraftForge.EVENT_BUS.register(EventSubscriber.class);

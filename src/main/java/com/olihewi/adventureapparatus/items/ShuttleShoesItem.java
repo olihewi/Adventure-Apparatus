@@ -1,8 +1,6 @@
 package com.olihewi.adventureapparatus.items;
 
-import com.olihewi.adventureapparatus.AdventureApparatus;
 import com.olihewi.adventureapparatus.armour.ModArmourMaterial;
-import com.olihewi.adventureapparatus.network.ShuttleJumpMessage;
 import com.olihewi.adventureapparatus.util.RegistryHandler;
 import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.inventory.EquipmentSlotType;
