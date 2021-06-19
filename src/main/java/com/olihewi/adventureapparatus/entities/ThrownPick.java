@@ -29,6 +29,7 @@ import net.minecraft.util.math.BlockRayTraceResult;
 import net.minecraft.util.math.RayTraceContext;
 import net.minecraft.util.math.RayTraceResult;
 import net.minecraft.util.math.vector.Vector3d;
+import net.minecraft.util.text.StringTextComponent;
 import net.minecraft.world.World;
 import net.minecraftforge.api.distmarker.Dist;
 import net.minecraftforge.api.distmarker.OnlyIn;
@@ -179,13 +180,14 @@ public class ThrownPick extends Entity implements IEntityAdditionalSpawnData
     }
   }
 
-  public void reel()
+  public boolean reel()
   {
     LivingEntity thrower = this.getThrower();
+    boolean success = stuckInBlock != BlockPos.ZERO;
     if (thrower != null)
     {
       BlockState blockState = this.level.getBlockState(stuckInBlock);
-      if (stuckInBlock != BlockPos.ZERO)
+      if (success)
       {
         if (shouldMine(blockState))
         {
@@ -199,6 +201,7 @@ public class ThrownPick extends Entity implements IEntityAdditionalSpawnData
       this.level.playSound((PlayerEntity) null, thrower.getX(), thrower.getY(), thrower.getZ(), SoundEvents.FISHING_BOBBER_RETRIEVE, SoundCategory.NEUTRAL, 4.0F, 0.2F / (random.nextFloat() * 0.4F + 0.8F));
     }
     this.remove();
+    return success;
   }
 
   private void mine(BlockPos blockPos, BlockState blockState)

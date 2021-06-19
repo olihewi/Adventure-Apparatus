@@ -64,7 +64,7 @@ public class ShuttleShoesItem extends ArmorItem
       }
       player.getCooldowns().addCooldown(item, 10 + increment * 3);
       player.level.playSound(player, player, SoundEvents.SHULKER_SHOOT, SoundCategory.PLAYERS, 1.0F, MathHelper.clamp(1.2F - (increment * 0.2F), 0.1F, 1.0F));
-      itemStack.hurtAndBreak(10, player, p -> p.broadcastBreakEvent(EquipmentSlotType.FEET));
+      itemStack.hurtAndBreak(1, player, p -> p.broadcastBreakEvent(EquipmentSlotType.FEET));
       for (int i = 0; i < 6; i++)
       {
         player.level.addParticle(ParticleTypes.END_ROD, player.getX() + player.getRandom().nextDouble(), player.getY(), player.getZ() + player.getRandom().nextDouble(), 0.0D, -0.25D, 0.0D);

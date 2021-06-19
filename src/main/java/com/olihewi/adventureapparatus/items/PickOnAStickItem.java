@@ -40,7 +40,13 @@ public class PickOnAStickItem extends FishingRodItem
     ThrownPick thrownPick = (ThrownPick) playerEntity.level.getEntity(thrownPickId);
     if (thrownPickId != 0 && thrownPick != null)
     {
-      thrownPick.reel();
+      if (thrownPick.reel())
+      {
+        itemstack.hurtAndBreak(1, playerEntity, (player) -> {
+          player.broadcastBreakEvent(hand);
+        });
+
+      }
       tag.putInt("thrownPick", 0);
     }
     else
