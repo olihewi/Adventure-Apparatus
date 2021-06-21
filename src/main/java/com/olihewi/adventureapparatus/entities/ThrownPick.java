@@ -148,17 +148,18 @@ public class ThrownPick extends Entity implements IEntityAdditionalSpawnData
 
   private boolean shouldMine(BlockState blockState)
   {
-    float blockHardness = blockState.getHarvestLevel();
+    int blockHardness = blockState.getHarvestLevel();
     int oxidationStage = 0;
     if (this.getItemStack().getItem() instanceof PickOnAStickItem)
     {
       PickOnAStickItem pickOnAStickItem = (PickOnAStickItem) this.getItemStack().getItem();
       oxidationStage = pickOnAStickItem.oxidationStage;
     }
-    return !blockState.isStickyBlock() &&
+    return oxidationStage != 3 &&
+        !blockState.isStickyBlock() &&
         blockState.getPistonPushReaction() != PushReaction.PUSH_ONLY &&
         blockState.getBlock() != Blocks.TARGET &&
-        blockHardness >= 0 &&
+        blockState.getDestroySpeed(this.level,this.stuckInBlock) >= 0 &&
         blockHardness <= 2 - oxidationStage;
   }
 
