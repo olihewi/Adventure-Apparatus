@@ -120,7 +120,7 @@ public class EventSubscriber
   {
     if (event.getType() == VillagerProfession.TOOLSMITH)
     {
-      event.getTrades().get(3).add(new Trades.ItemsForEmeraldsTrade(RegistryHandler.PICK_ON_A_STICK.get(), 1, 2, 3));
+      event.getTrades().get(3).add(new Trades.ItemsForEmeraldsTrade(RegistryHandler.PICK_ON_A_STICK.get(), 24, 1, 3));
     }
   }
 }
