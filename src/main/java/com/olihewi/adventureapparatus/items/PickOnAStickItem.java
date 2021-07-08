@@ -2,9 +2,12 @@ package com.olihewi.adventureapparatus.items;
 
 import com.olihewi.adventureapparatus.entities.ThrownPick;
 import com.olihewi.adventureapparatus.util.RegistryHandler;
+import net.minecraft.block.Block;
+import net.minecraft.block.Blocks;
 import net.minecraft.enchantment.Enchantment;
 import net.minecraft.enchantment.Enchantments;
 import net.minecraft.entity.Entity;
+import net.minecraft.entity.item.ItemEntity;
 import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.item.FishingRodItem;
 import net.minecraft.item.Item;
@@ -12,15 +15,12 @@ import net.minecraft.item.ItemGroup;
 import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.CompoundNBT;
 import net.minecraft.stats.Stats;
-import net.minecraft.util.ActionResult;
-import net.minecraft.util.Hand;
-import net.minecraft.util.SoundCategory;
-import net.minecraft.util.SoundEvents;
+import net.minecraft.util.*;
 import net.minecraft.world.World;
 
 public class PickOnAStickItem extends FishingRodItem
 {
-  private static final long OXIDATION_TIME = 6000;
+  private static final long OXIDATION_TIME = 36000;
   public int oxidationStage;
   public boolean waxed;
 
@@ -108,6 +108,8 @@ public class PickOnAStickItem extends FishingRodItem
           Enchantments.SILK_TOUCH, Enchantments.BLOCK_FORTUNE, Enchantments.UNBREAKING,
           Enchantments.MENDING
       };
+
+
 
   @Override
   public boolean canApplyAtEnchantingTable(ItemStack stack, Enchantment enchantment)

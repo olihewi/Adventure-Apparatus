@@ -1,0 +1,12 @@
+{
+  "type": "minecraft:smithing",
+  "base": {
+    "item": "adventureapparatus:exposed_pick_on_a_stick"
+  },
+  "addition": {
+    "item": "minecraft:water_bucket"
+  },
+  "result": {
+    "item": "adventureapparatus:pick_on_a_stick"
+  }
+}
