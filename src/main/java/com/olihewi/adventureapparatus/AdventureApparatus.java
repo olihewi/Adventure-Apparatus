@@ -5,9 +5,11 @@ import com.olihewi.adventureapparatus.loot.LootModifierSerializerRegistry;
 import com.olihewi.adventureapparatus.network.ModJumpMessage;
 import com.olihewi.adventureapparatus.util.EventSubscriber;
 import com.olihewi.adventureapparatus.util.RegistryHandler;
+import net.minecraft.client.settings.KeyBinding;
 import net.minecraft.item.ItemModelsProperties;
 import net.minecraft.util.ResourceLocation;
 import net.minecraftforge.common.MinecraftForge;
+import net.minecraftforge.fml.client.registry.ClientRegistry;
 import net.minecraftforge.fml.client.registry.RenderingRegistry;
 import net.minecraftforge.fml.common.Mod;
 import net.minecraftforge.fml.event.lifecycle.FMLClientSetupEvent;
@@ -25,6 +27,7 @@ public class AdventureApparatus
   public static final String MOD_ID = "adventureapparatus";
   public static final String NETWORK_PROTOCOL = "AA1";
   public static SimpleChannel CHANNEL;
+  public static KeyBinding shuttleJumpKeybind;
   public static void registerMessages()
   {
     CHANNEL = NetworkRegistry.ChannelBuilder.named(new ResourceLocation(MOD_ID,"net"))
@@ -58,6 +61,8 @@ public class AdventureApparatus
 
   private void clientSetup(final FMLClientSetupEvent event)
   {
+    shuttleJumpKeybind = new KeyBinding("key.adventureapparatus.shuttlejump", 32, "key.categories.movement");
+    ClientRegistry.registerKeyBinding(shuttleJumpKeybind);
     RenderingRegistry.registerEntityRenderingHandler(RegistryHandler.PICK_ON_A_STICK_ENTITY.get(), ThrownPickRenderer::new);
     event.enqueueWork(() ->
     {

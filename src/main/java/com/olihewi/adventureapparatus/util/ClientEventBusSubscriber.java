@@ -29,7 +29,7 @@ public class ClientEventBusSubscriber
     {
       return;
     }
-    if (mc.options.keyJump.consumeClick() && !player.abilities.flying)
+    if (key.getKey() == AdventureApparatus.shuttleJumpKeybind.getKey().getValue() && AdventureApparatus.shuttleJumpKeybind.consumeClick() && !player.abilities.flying)
     {
       AdventureApparatus.CHANNEL.sendToServer(new ModJumpMessage());
       ShuttleShoesItem.shuttleJump(player);
