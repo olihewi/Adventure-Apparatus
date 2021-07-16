@@ -4,9 +4,9 @@
     "item": "adventureapparatus:pick_on_a_stick"
   },
   "addition": {
-    "item": "minecraft:honeycomb"
+    "item": "minecraft:slime_ball"
   },
   "result": {
-    "item": "adventureapparatus:waxed_pick_on_a_stick"
+    "item": "adventureapparatus:sticky_pick_on_a_stick"
   }
 }

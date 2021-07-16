@@ -2,17 +2,14 @@
     "type": "minecraft:crafting_shaped",
     "pattern": [
         "xy",
-        "yY"
+        "yy"
     ],
     "key": {
         "x": {
             "item": "minecraft:fishing_rod"
         },
         "y": {
-            "tag": "forge:ingots/copper"
-        },
-        "Y": {
-            "tag": "forge:ingots/copper"
+            "item": "minecraft:diamond"
         }
     },
     "result": {

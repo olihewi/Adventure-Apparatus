@@ -32,22 +32,7 @@ public class PickOnAStickLootModifier extends LootModifier
     lootTable.equals(new ResourceLocation("minecraft:chests/village/village_weaponsmith")))
     {
       Random random = context.getRandom();
-      ItemStack loot = ItemStack.EMPTY;
-      switch (random.nextInt(4))
-      {
-        case 0:
-          loot = new ItemStack(RegistryHandler.PICK_ON_A_STICK.get());
-          break;
-        case 1:
-          loot = new ItemStack(RegistryHandler.EXPOSED_PICK_ON_A_STICK.get());
-          break;
-        case 2:
-          loot = new ItemStack(RegistryHandler.WEATHERED_PICK_ON_A_STICK.get());
-          break;
-        case 3:
-          loot = new ItemStack(RegistryHandler.OXIDIZED_PICK_ON_A_STICK.get());
-          break;
-      }
+      ItemStack loot = new ItemStack(RegistryHandler.PICK_ON_A_STICK.get());
       generatedLoot.add(loot);
     }
     return generatedLoot;

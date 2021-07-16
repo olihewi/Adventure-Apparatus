@@ -1,6 +1,7 @@
 package com.olihewi.adventureapparatus;
 
 import com.olihewi.adventureapparatus.client.render.ThrownPickRenderer;
+import com.olihewi.adventureapparatus.items.PickOnAStickItem;
 import com.olihewi.adventureapparatus.loot.LootModifierSerializerRegistry;
 import com.olihewi.adventureapparatus.network.ModJumpMessage;
 import com.olihewi.adventureapparatus.util.EventSubscriber;
@@ -68,28 +69,10 @@ public class AdventureApparatus
     {
       ItemModelsProperties.register(RegistryHandler.PICK_ON_A_STICK.get(),
           new ResourceLocation(MOD_ID, "cast"), (stack, world, living) ->
-              living != null && stack.getOrCreateTag().getInt("thrownPick") != 0 ? 1.0F : 0.0F);
-      ItemModelsProperties.register(RegistryHandler.EXPOSED_PICK_ON_A_STICK.get(),
+              living != null && PickOnAStickItem.getEntity(world, stack) != null ? 1.0F : 0.0F);
+      ItemModelsProperties.register(RegistryHandler.STICKY_PICK_ON_A_STICK.get(),
           new ResourceLocation(MOD_ID, "cast"), (stack, world, living) ->
-              living != null && stack.getOrCreateTag().getInt("thrownPick") != 0 ? 1.0F : 0.0F);
-      ItemModelsProperties.register(RegistryHandler.WEATHERED_PICK_ON_A_STICK.get(),
-          new ResourceLocation(MOD_ID, "cast"), (stack, world, living) ->
-              living != null && stack.getOrCreateTag().getInt("thrownPick") != 0 ? 1.0F : 0.0F);
-      ItemModelsProperties.register(RegistryHandler.OXIDIZED_PICK_ON_A_STICK.get(),
-          new ResourceLocation(MOD_ID, "cast"), (stack, world, living) ->
-              living != null && stack.getOrCreateTag().getInt("thrownPick") != 0 ? 1.0F : 0.0F);
-      ItemModelsProperties.register(RegistryHandler.WAXED_PICK_ON_A_STICK.get(),
-          new ResourceLocation(MOD_ID, "cast"), (stack, world, living) ->
-              living != null && stack.getOrCreateTag().getInt("thrownPick") != 0 ? 1.0F : 0.0F);
-      ItemModelsProperties.register(RegistryHandler.WAXED_EXPOSED_PICK_ON_A_STICK.get(),
-          new ResourceLocation(MOD_ID, "cast"), (stack, world, living) ->
-              living != null && stack.getOrCreateTag().getInt("thrownPick") != 0 ? 1.0F : 0.0F);
-      ItemModelsProperties.register(RegistryHandler.WAXED_WEATHERED_PICK_ON_A_STICK.get(),
-          new ResourceLocation(MOD_ID, "cast"), (stack, world, living) ->
-              living != null && stack.getOrCreateTag().getInt("thrownPick") != 0 ? 1.0F : 0.0F);
-      ItemModelsProperties.register(RegistryHandler.WAXED_OXIDIZED_PICK_ON_A_STICK.get(),
-          new ResourceLocation(MOD_ID, "cast"), (stack, world, living) ->
-              living != null && stack.getOrCreateTag().getInt("thrownPick") != 0 ? 1.0F : 0.0F);
+              living != null && PickOnAStickItem.getEntity(world, stack) != null ? 1.0F : 0.0F);
     });
   }
 }

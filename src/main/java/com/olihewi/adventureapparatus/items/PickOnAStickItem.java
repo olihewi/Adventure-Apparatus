@@ -20,17 +20,28 @@ import net.minecraft.world.World;
 
 public class PickOnAStickItem extends FishingRodItem
 {
-  private static final long OXIDATION_TIME = 36000;
-  public int oxidationStage;
-  public boolean waxed;
+  public boolean sticky;
 
-  public PickOnAStickItem(int oxidation_stage, boolean waxed)
+  public PickOnAStickItem(boolean sticky)
   {
     super(new Item.Properties().tab(ItemGroup.TAB_TOOLS).durability(64));
-    this.oxidationStage = oxidation_stage;
-    this.waxed = waxed;
+    this.sticky = sticky;
   }
 
+  public static ThrownPick getEntity(World world, ItemStack stack)
+  {
+    CompoundNBT tag = stack.getOrCreateTag();
+    int thrownPickId = tag.getInt("thrownPick");
+    if (thrownPickId != 0 && world != null)
+    {
+      Entity thrownEntity = world.getEntity(thrownPickId);
+      if (thrownEntity instanceof ThrownPick)
+      {
+        return (ThrownPick) thrownEntity;
+      }
+    }
+    return null;
+  }
   @Override
   public ActionResult<ItemStack> use(World world, PlayerEntity playerEntity, Hand hand)
   {
@@ -63,53 +74,11 @@ public class PickOnAStickItem extends FishingRodItem
     return ActionResult.sidedSuccess(itemstack, world.isClientSide());
   }
 
-  @Override
-  public void inventoryTick(ItemStack itemStack, World world, Entity entity, int itemSlot, boolean p_77663_5_)
-  {
-    super.inventoryTick(itemStack, world, entity, itemSlot, p_77663_5_);
-    CompoundNBT tag = itemStack.getOrCreateTag();
-    long oxidationTime = tag.getLong("oxidationTime");
-    if (oxidationTime == 0)
-    {
-      tag.putLong("oxidationTime", world.getGameTime());
-    }
-    else if (!waxed && oxidationStage < 3 && world.getGameTime() - oxidationTime > OXIDATION_TIME)
-    {
-      ItemStack replacement = ItemStack.EMPTY;
-      if (oxidationStage == 0)
-      {
-        replacement = new ItemStack(RegistryHandler.EXPOSED_PICK_ON_A_STICK.get());
-      }
-      else if (oxidationStage == 1)
-      {
-        replacement = new ItemStack(RegistryHandler.WEATHERED_PICK_ON_A_STICK.get());
-      }
-      if (oxidationStage == 2)
-      {
-        replacement = new ItemStack(RegistryHandler.OXIDIZED_PICK_ON_A_STICK.get());
-      }
-      replacement.setDamageValue(itemStack.getDamageValue());
-      replacement.getEnchantmentTags().addAll(itemStack.getEnchantmentTags());
-      replacement.getOrCreateTag().putInt("thrownPick", itemStack.getOrCreateTag().getInt("thrownPick"));
-      if (entity instanceof PlayerEntity)
-      {
-        ((PlayerEntity) entity).inventory.setItem(itemSlot, replacement);
-      }
-
-    }
-    if (world.getEntity(tag.getInt("thrownPick")) == null)
-    {
-      tag.putInt("thrownPick", 0);
-    }
-  }
-
   private final Enchantment[] VALID_ENCHANTMENTS =
       {
           Enchantments.SILK_TOUCH, Enchantments.BLOCK_FORTUNE, Enchantments.UNBREAKING,
           Enchantments.MENDING
       };
-
-
 
   @Override
   public boolean canApplyAtEnchantingTable(ItemStack stack, Enchantment enchantment)

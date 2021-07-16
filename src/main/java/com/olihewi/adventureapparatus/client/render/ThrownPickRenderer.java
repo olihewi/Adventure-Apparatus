@@ -28,9 +28,7 @@ import javax.annotation.Nonnull;
 public class ThrownPickRenderer extends EntityRenderer<ThrownPick>
 {
   private static final ResourceLocation TEXTURE_LOCATION0 = new ResourceLocation("adventureapparatus:textures/entity/pick_on_a_stick.png");
-  private static final ResourceLocation TEXTURE_LOCATION1 = new ResourceLocation("adventureapparatus:textures/entity/exposed_pick_on_a_stick.png");
-  private static final ResourceLocation TEXTURE_LOCATION2 = new ResourceLocation("adventureapparatus:textures/entity/weathered_pick_on_a_stick.png");
-  private static final ResourceLocation TEXTURE_LOCATION3 = new ResourceLocation("adventureapparatus:textures/entity/oxidized_pick_on_a_stick.png");
+  private static final ResourceLocation TEXTURE_LOCATION1 = new ResourceLocation("adventureapparatus:textures/entity/sticky_pick_on_a_stick.png");
 
   public ThrownPickRenderer(EntityRendererManager rendererManager)
   {
@@ -137,22 +135,11 @@ public class ThrownPickRenderer extends EntityRenderer<ThrownPick>
   @Override
   public ResourceLocation getTextureLocation(ThrownPick entity)
   {
-    int oxidation = 0;
+    boolean sticky = false;
     if (entity.getItemStack().getItem() instanceof PickOnAStickItem)
     {
-      oxidation = ((PickOnAStickItem) entity.getItemStack().getItem()).oxidationStage;
+      sticky = ((PickOnAStickItem) entity.getItemStack().getItem()).sticky;
     }
-    switch (oxidation)
-    {
-      case 1:
-        return TEXTURE_LOCATION1;
-      case 2:
-        return TEXTURE_LOCATION2;
-      case 3:
-        return TEXTURE_LOCATION3;
-      default:
-        break;
-    }
-    return TEXTURE_LOCATION0;
+    return sticky ? TEXTURE_LOCATION1 : TEXTURE_LOCATION0;
   }
 }

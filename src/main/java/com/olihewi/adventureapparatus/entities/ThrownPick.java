@@ -5,7 +5,6 @@ import com.olihewi.adventureapparatus.util.RegistryHandler;
 import net.minecraft.block.Block;
 import net.minecraft.block.BlockState;
 import net.minecraft.block.Blocks;
-import net.minecraft.block.material.PushReaction;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.EntityType;
 import net.minecraft.entity.LivingEntity;
@@ -29,7 +28,6 @@ import net.minecraft.util.math.BlockRayTraceResult;
 import net.minecraft.util.math.RayTraceContext;
 import net.minecraft.util.math.RayTraceResult;
 import net.minecraft.util.math.vector.Vector3d;
-import net.minecraft.util.text.StringTextComponent;
 import net.minecraft.world.World;
 import net.minecraftforge.api.distmarker.Dist;
 import net.minecraftforge.api.distmarker.OnlyIn;
@@ -42,6 +40,7 @@ import java.util.List;
 
 public class ThrownPick extends Entity implements IEntityAdditionalSpawnData
 {
+
   public BlockPos stuckInBlock = BlockPos.ZERO;
 
   protected LivingEntity owner;
@@ -91,7 +90,7 @@ public class ThrownPick extends Entity implements IEntityAdditionalSpawnData
     {
       this.remove();
     }
-    else if (this.level.isClientSide || !this.shouldStopFishing(thrower))
+    else if (this.level.isClientSide || !this.shouldRemove(thrower))
     {
       if (stuckInBlock == BlockPos.ZERO || this.level.getBlockState(stuckInBlock).isAir())
       {
@@ -139,32 +138,24 @@ public class ThrownPick extends Entity implements IEntityAdditionalSpawnData
   {
     this.stuckInBlock = blockPos;
     BlockState blockState = this.level.getBlockState(blockPos);
-    this.playSound(blockState.getSoundType().getHitSound(), 1.0F, 1.0F);
-    if (shouldMine(blockState))
+    if (isSticky())
     {
+      this.playSound(SoundEvents.SLIME_SQUISH, 1.0F, 1.0F);
+    }
+    else if (canBreak(blockState))
+    {
+      this.playSound(blockState.getSoundType().getPlaceSound(), 1.0F, 1.0F);
       this.level.destroyBlockProgress(ownerID, blockPos, 4);
     }
   }
 
-  private boolean shouldMine(BlockState blockState)
+  private boolean isSticky()
   {
-    int blockHardness = blockState.getHarvestLevel();
-    int oxidationStage = 0;
-    if (this.getItemStack().getItem() instanceof PickOnAStickItem)
-    {
-      PickOnAStickItem pickOnAStickItem = (PickOnAStickItem) this.getItemStack().getItem();
-      oxidationStage = pickOnAStickItem.oxidationStage;
-    }
-    return oxidationStage != 3 &&
-        !blockState.isStickyBlock() &&
-        blockState.getPistonPushReaction() != PushReaction.PUSH_ONLY &&
-        blockState.getBlock() != Blocks.TARGET &&
-        blockState.getDestroySpeed(this.level,this.stuckInBlock) >= 0 &&
-        blockHardness <= 2 - oxidationStage;
+    return (this.getItemStack().getItem() instanceof PickOnAStickItem && ((PickOnAStickItem) this.getItemStack().getItem()).sticky);
   }
 
   @SuppressWarnings("deprecation")
-  private boolean shouldStopFishing(LivingEntity thrower)
+  private boolean shouldRemove(LivingEntity thrower)
   {
     ItemStack itemstack = thrower.getMainHandItem();
     ItemStack itemstack1 = thrower.getOffhandItem();
@@ -176,6 +167,7 @@ public class ThrownPick extends Entity implements IEntityAdditionalSpawnData
     }
     else
     {
+      this.level.destroyBlockProgress(ownerID, this.stuckInBlock, -1);
       this.remove();
       return true;
     }
@@ -190,7 +182,7 @@ public class ThrownPick extends Entity implements IEntityAdditionalSpawnData
       BlockState blockState = this.level.getBlockState(stuckInBlock);
       if (success)
       {
-        if (shouldMine(blockState))
+        if (!isSticky())
         {
           mine(stuckInBlock, blockState);
         }
@@ -199,16 +191,22 @@ public class ThrownPick extends Entity implements IEntityAdditionalSpawnData
           grapple(thrower);
         }
       }
-      this.level.playSound((PlayerEntity) null, thrower.getX(), thrower.getY(), thrower.getZ(), SoundEvents.FISHING_BOBBER_RETRIEVE, SoundCategory.NEUTRAL, 4.0F, 0.2F / (random.nextFloat() * 0.4F + 0.8F));
+      this.level.playSound(null, thrower.getX(), thrower.getY(), thrower.getZ(), SoundEvents.FISHING_BOBBER_RETRIEVE, SoundCategory.NEUTRAL, 4.0F, 0.2F / (random.nextFloat() * 0.4F + 0.8F));
     }
     this.remove();
     return success;
   }
 
+  private boolean canBreak(BlockState state)
+  {
+    return state.getHarvestLevel() <= 2 &&
+        state.getDestroySpeed(this.level, this.stuckInBlock) >= 0;
+  }
+
   private void mine(BlockPos blockPos, BlockState blockState)
   {
     LivingEntity thrower = getThrower();
-    if (thrower != null && !this.level.isClientSide)
+    if (thrower != null && !this.level.isClientSide && canBreak(blockState))
     {
       level.levelEvent(2001, blockPos, Block.getId(blockState));
       TileEntity tileEntity = blockState.hasTileEntity() ? level.getBlockEntity(blockPos) : null;

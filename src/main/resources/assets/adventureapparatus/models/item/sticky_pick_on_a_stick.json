@@ -1,7 +1,7 @@
 {
   "parent": "item/handheld_rod",
   "textures": {
-    "layer0": "adventureapparatus:items/exposed_pick_on_a_stick"
+    "layer0": "adventureapparatus:items/sticky_pick_on_a_stick"
   },
   "overrides": [
     {
