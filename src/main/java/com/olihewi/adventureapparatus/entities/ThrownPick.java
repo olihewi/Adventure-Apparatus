@@ -190,7 +190,7 @@ public class ThrownPick extends Entity implements IEntityAdditionalSpawnData
         {
           mine(stuckInBlock, blockState);
         }
-        else if (blockState.getBlock().getTags().contains(CANNOT_GRAPPLE))
+        else if (!blockState.getBlock().getTags().contains(CANNOT_GRAPPLE))
         {
           grapple(thrower);
         }
