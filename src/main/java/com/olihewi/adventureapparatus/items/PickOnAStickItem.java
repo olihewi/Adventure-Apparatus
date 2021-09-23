@@ -24,7 +24,7 @@ public class PickOnAStickItem extends FishingRodItem
 
   public PickOnAStickItem(boolean sticky)
   {
-    super(new Item.Properties().tab(ItemGroup.TAB_TOOLS).durability(64));
+    super(new Item.Properties().tab(ItemGroup.TAB_TOOLS).durability(128));
     this.sticky = sticky;
   }
 

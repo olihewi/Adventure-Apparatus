@@ -9,7 +9,10 @@
             "item": "minecraft:fishing_rod"
         },
         "y": {
-            "item": "minecraft:diamond"
+            "tag": "forge:ingots/copper"
+        },
+        "Y": {
+            "tag": "forge:storage_blocks/copper"
         }
     },
     "result": {

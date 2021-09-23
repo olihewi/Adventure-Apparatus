@@ -159,8 +159,8 @@ public class ThrownPick extends Entity implements IEntityAdditionalSpawnData
   {
     ItemStack itemstack = thrower.getMainHandItem();
     ItemStack itemstack1 = thrower.getOffhandItem();
-    boolean flag = itemstack.getItem() instanceof PickOnAStickItem;
-    boolean flag1 = itemstack1.getItem() instanceof PickOnAStickItem;
+    boolean flag = itemstack.getItem() instanceof PickOnAStickItem && itemstack.getOrCreateTag().getInt("thrownPick") != 0;
+    boolean flag1 = itemstack1.getItem() instanceof PickOnAStickItem && itemstack1.getOrCreateTag().getInt("thrownPick") != 0;
     if (!thrower.removed && thrower.isAlive() && (flag || flag1) && !(this.distanceToSqr(thrower) > 1536.0D))
     {
       return false;
