@@ -1,5 +1,6 @@
 package com.olihewi.adventureapparatus.entities;
 
+import com.olihewi.adventureapparatus.AdventureApparatus;
 import com.olihewi.adventureapparatus.items.PickOnAStickItem;
 import com.olihewi.adventureapparatus.util.RegistryHandler;
 import net.minecraft.block.Block;
@@ -20,7 +21,10 @@ import net.minecraft.network.PacketBuffer;
 import net.minecraft.network.datasync.DataParameter;
 import net.minecraft.network.datasync.DataSerializers;
 import net.minecraft.network.datasync.EntityDataManager;
+import net.minecraft.tags.BlockTags;
+import net.minecraft.tags.Tag;
 import net.minecraft.tileentity.TileEntity;
+import net.minecraft.util.ResourceLocation;
 import net.minecraft.util.SoundCategory;
 import net.minecraft.util.SoundEvents;
 import net.minecraft.util.math.BlockPos;
@@ -40,7 +44,7 @@ import java.util.List;
 
 public class ThrownPick extends Entity implements IEntityAdditionalSpawnData
 {
-
+  public static ResourceLocation CANNOT_GRAPPLE = new ResourceLocation(AdventureApparatus.MOD_ID,"cannot_grapple");
   public BlockPos stuckInBlock = BlockPos.ZERO;
 
   protected LivingEntity owner;
@@ -186,7 +190,7 @@ public class ThrownPick extends Entity implements IEntityAdditionalSpawnData
         {
           mine(stuckInBlock, blockState);
         }
-        else
+        else if (blockState.getBlock().getTags().contains(CANNOT_GRAPPLE))
         {
           grapple(thrower);
         }
