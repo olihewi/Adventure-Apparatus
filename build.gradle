@@ -12,7 +12,7 @@ apply plugin: 'net.minecraftforge.gradle'
 apply plugin: 'eclipse'
 apply plugin: 'maven-publish'
 
-version = '1.4'
+version = '1.5.1'
 group = 'com.olihewi.adventureapparatus' // http://maven.apache.org/guides/mini/guide-naming-conventions.html
 archivesBaseName = 'adventureapparatus'
 
@@ -56,7 +56,7 @@ minecraft {
             property 'forge.logging.console.level', 'debug'
 
             mods {
-                examplemod {
+                adventureapparatus {
                     source sourceSets.main
                 }
             }
@@ -78,7 +78,7 @@ minecraft {
             property 'forge.logging.console.level', 'debug'
 
             mods {
-                examplemod {
+                adventureapparatus {
                     source sourceSets.main
                 }
             }
@@ -100,10 +100,10 @@ minecraft {
             property 'forge.logging.console.level', 'debug'
 
             // Specify the modid for data generation, where to output the resulting resource, and where to look for existing resources.
-            args '--mod', 'examplemod', '--all', '--output', file('src/generated/resources/'), '--existing', file('src/main/resources/')
+            args '--mod', 'adventureapparatus', '--all', '--output', file('src/generated/resources/'), '--existing', file('src/main/resources/')
 
             mods {
-                examplemod {
+                adventureapparatus {
                     source sourceSets.main
                 }
             }

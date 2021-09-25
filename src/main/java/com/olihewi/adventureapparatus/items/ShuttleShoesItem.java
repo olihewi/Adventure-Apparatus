@@ -43,7 +43,6 @@ public class ShuttleShoesItem extends ArmorItem
     if (item == RegistryHandler.SHUTTLE_SHOES.get() && !player.isOnGround() && !player.isSpectator() &&
         !player.getCooldowns().isOnCooldown(item))
     {
-      //AdventureApparatus.CHANNEL.sendToServer(new ShuttleJumpMessage());
       CompoundNBT tag = itemStack.getOrCreateTag();
       int increment = tag.getInt(TIMES_JUMPED) + 1;
       tag.putInt(TIMES_JUMPED, increment);

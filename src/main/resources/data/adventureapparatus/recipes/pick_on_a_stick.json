@@ -10,13 +10,9 @@
         },
         "y": {
             "tag": "forge:ingots/copper"
-        },
-        "Y": {
-            "tag": "forge:storage_blocks/copper"
         }
     },
     "result": {
-        "item": "pickonastick:pick_on_a_stick",
-        "count": 1
+        "item": "adventureapparatus:pick_on_a_stick"
     }
 }

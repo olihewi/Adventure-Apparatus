@@ -9,6 +9,8 @@ import com.olihewi.adventureapparatus.util.RegistryHandler;
 import net.minecraft.client.settings.KeyBinding;
 import net.minecraft.item.ItemModelsProperties;
 import net.minecraft.util.ResourceLocation;
+import net.minecraftforge.api.distmarker.Dist;
+import net.minecraftforge.api.distmarker.OnlyIn;
 import net.minecraftforge.common.MinecraftForge;
 import net.minecraftforge.fml.client.registry.ClientRegistry;
 import net.minecraftforge.fml.client.registry.RenderingRegistry;
@@ -62,17 +64,6 @@ public class AdventureApparatus
 
   private void clientSetup(final FMLClientSetupEvent event)
   {
-    shuttleJumpKeybind = new KeyBinding("key.adventureapparatus.shuttlejump", 32, "key.categories.movement");
-    ClientRegistry.registerKeyBinding(shuttleJumpKeybind);
-    RenderingRegistry.registerEntityRenderingHandler(RegistryHandler.PICK_ON_A_STICK_ENTITY.get(), ThrownPickRenderer::new);
-    event.enqueueWork(() ->
-    {
-      ItemModelsProperties.register(RegistryHandler.PICK_ON_A_STICK.get(),
-          new ResourceLocation(MOD_ID, "cast"), (stack, world, living) ->
-              living != null && PickOnAStickItem.getEntity(world, stack) != null ? 1.0F : 0.0F);
-      ItemModelsProperties.register(RegistryHandler.STICKY_PICK_ON_A_STICK.get(),
-          new ResourceLocation(MOD_ID, "cast"), (stack, world, living) ->
-              living != null && PickOnAStickItem.getEntity(world, stack) != null ? 1.0F : 0.0F);
-    });
+    ClientSetup.clientSetup(event);
   }
 }

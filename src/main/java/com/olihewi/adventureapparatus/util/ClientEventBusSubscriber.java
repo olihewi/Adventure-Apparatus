@@ -1,7 +1,6 @@
 package com.olihewi.adventureapparatus.util;
 
 import com.olihewi.adventureapparatus.AdventureApparatus;
-import com.olihewi.adventureapparatus.client.render.ThrownPickRenderer;
 import com.olihewi.adventureapparatus.enchantments.SinkingCurse;
 import com.olihewi.adventureapparatus.items.ShuttleShoesItem;
 import com.olihewi.adventureapparatus.network.ModJumpMessage;
@@ -11,9 +10,7 @@ import net.minecraftforge.api.distmarker.Dist;
 import net.minecraftforge.client.event.InputEvent;
 import net.minecraftforge.eventbus.api.EventPriority;
 import net.minecraftforge.eventbus.api.SubscribeEvent;
-import net.minecraftforge.fml.client.registry.RenderingRegistry;
 import net.minecraftforge.fml.common.Mod;
-import net.minecraftforge.fml.event.lifecycle.FMLClientSetupEvent;
 
 @Mod.EventBusSubscriber(modid = AdventureApparatus.MOD_ID, value = Dist.CLIENT)
 public class ClientEventBusSubscriber
